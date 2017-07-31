@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Tests\EventListener;
 
 use FOS\UserBundle\Event\FilterUserResponseEvent;
@@ -21,32 +31,20 @@ class AuthenticationListenerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $user = $this->getMock('FOS\UserBundle\Model\UserInterface');
-        $user
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->willReturn(true);
+        $user = $this->getMockBuilder('FOS\UserBundle\Model\UserInterface')->getMock();
 
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $response = $this->getMockBuilder('Symfony\Component\HttpFoundation\Response')->getMock();
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')->getMock();
         $this->event = new FilterUserResponseEvent($user, $request, $response);
 
-        $this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')->getMock();
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch');
 
-        $loginManager = $this->getMock('FOS\UserBundle\Security\LoginManagerInterface');
+        $loginManager = $this->getMockBuilder('FOS\UserBundle\Security\LoginManagerInterface')->getMock();
 
         $this->listener = new AuthenticationListener($loginManager, self::FIREWALL_NAME);
-    }
-
-    public function testAuthenticateLegacy()
-    {
-        $this->event->setDispatcher($this->eventDispatcher);
-        $this->event->setName(FOSUserEvents::REGISTRATION_COMPLETED);
-
-        $this->listener->authenticate($this->event);
     }
 
     public function testAuthenticate()

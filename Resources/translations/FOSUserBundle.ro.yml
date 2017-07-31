@@ -1,50 +1,41 @@
-# Group
 group:
     edit:
-        submit: Actualizează grupul
+        submit: 'Actualizează grupul'
     show:
-        name: Numele grupului
+        name: 'Numele grupului'
     new:
-        submit: Creează grup
+        submit: 'Creează grup'
     flash:
-        updated: Grupul a fost actualizat
-        created: Grupul a fost creat
-        deleted: Grupul a fost șters
-
-# Security
+        updated: 'Grupul a fost actualizat.'
+        created: 'Grupul a fost creat.'
+        deleted: 'Grupul a fost șters.'
 security:
     login:
-        username: Nume de utilizator
+        username: 'Nume de utilizator'
         password: Parola
-        remember_me: Ține-mă minte
+        remember_me: 'Ține-mă minte'
         submit: Autentificare
-
-# Profile
 profile:
     show:
-        username: Numele de utilizator
+        username: 'Numele de utilizator'
         email: Email
     edit:
         submit: Actualizează
     flash:
-        updated: Profilul a fost actualizat
-
-# Password change
+        updated: 'Profilul a fost actualizat.'
 change_password:
-    submit: Schimbă parola
+    submit: 'Schimbă parola'
     flash:
-        success: Parola a fost schimbată
-
-# Registration
+        success: 'Parola a fost schimbată.'
 registration:
-    check_email: Un email a fost trimis către %email%. Conține un link de activare pe care trebuie să îl accesezi pentru a-ți activa contul.
-    confirmed: Felicitări %username%, contul tău a fost confirmat.
-    back: Înapoi la pagina de la care ai venit.
+    check_email: 'Un email a fost trimis către %email%. Conține un link de activare pe care trebuie să îl accesezi pentru a-ți activa contul.'
+    confirmed: 'Felicitări %username%, contul tău a fost confirmat.'
+    back: 'Înapoi la pagina de la care ai venit.'
     submit: Înregistrează-te
     flash:
-        user_created: Utilizatorul a fost creat cu succes
+        user_created: 'Utilizatorul a fost creat cu succes.'
     email:
-        subject: Bine ai venit %username%!
+        subject: 'Bine ai venit %username%!'
         message: |
             Salut %username%!
 
@@ -53,20 +44,17 @@ registration:
             Toate cele bune,
             Echipa
 
-# Password resetting
 resetting:
-    password_already_requested: Deja s-a făcut o cerere în ultimele 24 de ore pentru parola acestui utilizator.
-    check_email: A fost trimis un email către %email%. Conține un link pe care trebuie să îl accesezi pentru a-ți reseta parola.
+    check_email: 'A fost trimis un email către %email%. Conține un link pe care trebuie să îl accesezi pentru a-ți reseta parola.'
     request:
-        invalid_username: Numele de utilizator sau adresa de email "%username%" nu există.
-        username: Numele de utilizator sau adresa de email
-        submit: Resetează parola
+        username: 'Numele de utilizator sau adresa de email'
+        submit: 'Resetează parola'
     reset:
-        submit: Schimbă parola
+        submit: 'Schimbă parola'
     flash:
-        success: Parola a fost resetată cu succes
+        success: 'Parola a fost resetată cu succes.'
     email:
-        subject: Resetare parolă
+        subject: 'Resetare parolă'
         message: |
             Salut %username%!
 
@@ -75,20 +63,17 @@ resetting:
             Toate cele bune,
             Echipa
 
-# Global strings
 layout:
     logout: Logout
     login: Autentificare
     register: Înregistrare
-    logged_in_as: Logat ca %username%
-
-# Form field labels
+    logged_in_as: 'Logat ca %username%'
 form:
-    group_name: Numele grupului
-    username: Nume de utilizator
+    group_name: 'Numele grupului'
+    username: 'Nume de utilizator'
     email: Email
-    current_password: Parola curentă
+    current_password: 'Parola curentă'
     password: Parolă
-    password_confirmation: Verificare parolă
-    new_password: Parola nouă
-    new_password_confirmation: Verificare parolă
+    password_confirmation: 'Verificare parolă'
+    new_password: 'Parola nouă'
+    new_password_confirmation: 'Verificare parolă'

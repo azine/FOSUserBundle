@@ -34,8 +34,6 @@ interface GroupManagerInterface
      * Deletes a group.
      *
      * @param GroupInterface $group
-     *
-     * @return void
      */
     public function deleteGroup(GroupInterface $group);
 
@@ -58,7 +56,7 @@ interface GroupManagerInterface
     public function findGroupByName($name);
 
     /**
-     * Returns a collection with all user instances.
+     * Returns a collection with all group instances.
      *
      * @return \Traversable
      */
@@ -75,8 +73,6 @@ interface GroupManagerInterface
      * Updates a group.
      *
      * @param GroupInterface $group
-     *
-     * @return void
      */
     public function updateGroup(GroupInterface $group);
 }

@@ -11,18 +11,22 @@
 
 namespace FOS\UserBundle\Controller;
 
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Form\Factory\FactoryInterface;
+use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Controller managing the password change
+ * Controller managing the password change.
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Christophe Coevoet <stof@notk.org>
@@ -30,7 +34,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ChangePasswordController extends Controller
 {
     /**
-     * Change user password
+     * Change user password.
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function changePasswordAction(Request $request)
     {
@@ -39,7 +47,7 @@ class ChangePasswordController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        /** @var $dispatcher EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
 
         $event = new GetResponseUserEvent($user, $request);
@@ -49,7 +57,7 @@ class ChangePasswordController extends Controller
             return $event->getResponse();
         }
 
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
+        /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.change_password.form.factory');
 
         $form = $formFactory->createForm();
@@ -57,8 +65,8 @@ class ChangePasswordController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
 
             $event = new FormEvent($form, $request);
@@ -76,8 +84,8 @@ class ChangePasswordController extends Controller
             return $response;
         }
 
-        return $this->render('FOSUserBundle:ChangePassword:changePassword.html.twig', array(
-            'form' => $form->createView()
+        return $this->render('@FOSUser/ChangePassword/change_password.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }

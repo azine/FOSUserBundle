@@ -1,50 +1,29 @@
-# Group
 group:
     edit:
-        submit: Muuda grupp
+        submit: 'Muuda grupp'
     show:
-        name: Grupi nimi
+        name: 'Grupi nimi'
     new:
-        submit: Uus grupp
-#    flash:
-#        updated: The group has been updated
-#        created: The group has been created
-#        deleted: The group has been deleted
-
-# Security
+        submit: 'Uus grupp'
 security:
     login:
         username: Kasutajanimi
         password: Salasõna
-        remember_me: Jäta mind meelde
+        remember_me: 'Jäta mind meelde'
         submit: Sisene
-
-# Profile
 profile:
     show:
         username: Kasutajanimi
         email: E-mail
     edit:
         submit: Uuenda
-#   flash:
-#       updated: The profile has been updated
-
-# Password change
 change_password:
-    submit: Muuda salasõna
-#    flash:
-#        success: The password has been changed
-
-# Registration
+    submit: 'Muuda salasõna'
 registration:
-    check_email: E-mail on saadetud aadressile %email%. Selles sisaldub viide, mis tuleb konto aktiveerimiseks avada.
-    confirmed: Palju õnne %username%, Sinu konto on aktiveeritud.
-    #back: Back to the originating page.
+    check_email: 'E-mail on saadetud aadressile %email%. Selles sisaldub viide, mis tuleb konto aktiveerimiseks avada.'
+    confirmed: 'Palju õnne %username%, Sinu konto on aktiveeritud.'
     submit: Registreeri
-    #flash:
-    #    user_created: The user has been created successfully
     email:
-        #subject: Welcome %username%!
         message: |
             Tere %username%!
 
@@ -53,20 +32,14 @@ registration:
             Parimatega,
             Tiim.
 
-# Password resetting
 resetting:
-    password_already_requested: Kasutaja salasõna on juba viimase 24 tunni jooksul küsitud.
-    check_email: E-mail on saadetud aadressile %email%. Selles sisaldub viide, mis tuleb salasõna muutmiseks avada.
+    check_email: 'E-mail on saadetud aadressile %email%. Selles sisaldub viide, mis tuleb salasõna muutmiseks avada.'
     request:
-        #invalid_username: The username or email address "%username%" does not exist.
         username: Kasutajanimi
-        submit: Saada salasõna
+        submit: 'Saada salasõna'
     reset:
-        submit: Muuda salasõna
-    #flash:
-    #    success: The password has been reset successfully
+        submit: 'Muuda salasõna'
     email:
-        #subject: Reset Password
         message: |
             Tere %username%!
 
@@ -75,20 +48,17 @@ resetting:
             Parimatega,
             Tiim.
 
-# Global strings
 layout:
     logout: Välju
     login: Sisene
     register: Registreeri
-    logged_in_as: "Sisse logitud: %username%"
-
-# Form field labels
+    logged_in_as: 'Sisse logitud: %username%'
 form:
-    group_name: Grupi nimi
+    group_name: 'Grupi nimi'
     username: Kasutajanimi
     email: E-mail
-    current_password: Vana salasõna
+    current_password: 'Vana salasõna'
     password: Salasõna
-    password_confirmation: Salasõna uuesti
-    new_password: Uus salasõna
-    new_password_confirmation: Salasõna uuesti
+    password_confirmation: 'Salasõna uuesti'
+    new_password: 'Uus salasõna'
+    new_password_confirmation: 'Salasõna uuesti'

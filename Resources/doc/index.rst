@@ -12,8 +12,8 @@ a database, then you're in the right place.
 Prerequisites
 -------------
 
-This version of the bundle requires Symfony 2.1+. If you are using Symfony
-2.0.x, please use the 1.2.x releases of the bundle.
+This version of the bundle requires Symfony 2.7+. If you are using an older
+Symfony version, please use the 1.3.x releases of the bundle.
 
 Translations
 ~~~~~~~~~~~~
@@ -53,6 +53,7 @@ Require the bundle with composer:
     $ composer require friendsofsymfony/user-bundle "~2.0@dev"
 
 Composer will install the bundle to your project's ``vendor/friendsofsymfony/user-bundle`` directory.
+If you encounter installation errors pointing at a lack of configuration parameters, such as ``The child node "db_driver" at path "fos_user" must be configured``, you should complete the configuration in Step 5 first and then re-run this step.
 
 Step 2: Enable the bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,7 +84,7 @@ The bundle provides base classes which are already mapped for most fields
 to make it easier to create your entity. Here is how you use it:
 
 1. Extend the base ``User`` class (from the ``Model`` folder if you are using
-   any of the doctrine variants, or ``Propel`` for propel 1.x)
+   any of the doctrine variants)
 2. Map the ``id`` field. It must be protected as it is inherited from the parent class.
 
 .. caution::
@@ -241,16 +242,6 @@ like this to start::
         }
     }
 
-d) Propel 1.x User class
-........................
-
-If you don't want to add your own logic in your user class, you can simply use
-``FOS\UserBundle\Propel\User`` as user class and you don't have to create
-another class.
-
-If you want to add your own fields, you can extend the model class by overriding the database schema.
-Just copy the ``Resources/config/propel/schema.xml`` file to ``app/Resources/FOSUserBundle/config/propel/schema.xml``,
-and customize it to fit your needs.
 
 Step 4: Configure your application's security.yml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,7 +273,9 @@ in your application:
                 pattern: ^/
                 form_login:
                     provider: fos_userbundle
-                    csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+                    csrf_token_generator: security.csrf.token_manager
+                    # if you are using Symfony < 2.8, use the following config instead:
+                    # csrf_provider: form.csrf_provider
 
                 logout:       true
                 anonymous:    true
@@ -348,7 +341,7 @@ of datastore you are using.
 
         # app/config/config.yml
         fos_user:
-            db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+            db_driver: orm # other valid values are 'mongodb' and 'couchdb'
             firewall_name: main
             user_class: AppBundle\Entity\User
 
@@ -365,7 +358,7 @@ of datastore you are using.
 
 Only three configuration values are required to use the bundle:
 
-* The type of datastore you are using (``orm``, ``mongodb``, ``couchdb`` or ``propel``).
+* The type of datastore you are using (``orm``, ``mongodb`` or ``couchdb``).
 * The firewall name which you configured in Step 4.
 * The fully qualified class name (FQCN) of the ``User`` class which you created in Step 3.
 
@@ -414,31 +407,18 @@ For ORM run the following command.
 
 .. code-block:: bash
 
-    $ php app/console doctrine:schema:update --force
+    $ php bin/console doctrine:schema:update --force
 
 For MongoDB users you can run the following command to create the indexes.
 
 .. code-block:: bash
 
-    $ php app/console doctrine:mongodb:schema:create --index
-
-For Propel 1 users you have to install the `TypehintableBehavior`_
-before to build your model. First, install it:
-
-.. code-block:: bash
-
-    composer require willdurand/propel-typehintable-behavior
-
-You now can run the following command to create the model:
-
-.. code-block:: bash
-
-    $ php app/console propel:build
+    $ php bin/console doctrine:mongodb:schema:create --index
 
 .. note::
 
-    To create SQL, run the command ``propel:build --insert-sql`` or use migration
-    commands if you have an existing schema in your database.
+    If you use the Symfony 2.x structure in your project, use ``app/console``
+    instead of ``bin/console`` in the commands.
 
 You now can log in at ``http://app.com/app_dev.php/login``!
 
@@ -451,23 +431,26 @@ of the bundle.
 
 The following documents are available:
 
-- :doc:`/overriding_templates`
-- :doc:`/controller_events`
-- :doc:`/overriding_controllers`
-- :doc:`/overriding_forms`
-- :doc:`/user_manager`
-- :doc:`/command_line_tools`
-- :doc:`/logging_by_username_or_email`
-- :doc:`/form_type`
-- :doc:`/emails`
-- :doc:`/groups`
-- :doc:`/doctrine`
-- :doc:`/overriding_validation`
-- :doc:`/canonicalizer`
-- :doc:`/custom_storage_layer`
-- :doc:`/routing`
-- :doc:`/configuration_reference`
-- :doc:`/adding_invitation_registration`
+.. toctree::
+    :maxdepth: 1
+
+    overriding_templates
+    controller_events
+    overriding_controllers
+    overriding_forms
+    user_manager
+    command_line_tools
+    logging_by_username_or_email
+    form_type
+    emails
+    groups
+    doctrine
+    overriding_validation
+    canonicalizer
+    custom_storage_layer
+    routing
+    configuration_reference
+    adding_invitation_registration
 
 .. _security component documentation: https://symfony.com/doc/current/book/security.html
 .. _Symfony documentation: https://symfony.com/doc/current/book/translation.html

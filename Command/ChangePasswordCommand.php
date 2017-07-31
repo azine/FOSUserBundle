@@ -15,14 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 /**
- * ChangePasswordCommand
+ * ChangePasswordCommand.
  */
 class ChangePasswordCommand extends ContainerAwareCommand
 {
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -33,23 +34,23 @@ class ChangePasswordCommand extends ContainerAwareCommand
                 new InputArgument('username', InputArgument::REQUIRED, 'The username'),
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
             ))
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>fos:user:change-password</info> command changes the password of a user:
 
-  <info>php app/console fos:user:change-password matthieu</info>
+  <info>php %command.full_name% matthieu</info>
 
 This interactive shell will first ask you for a password.
 
 You can alternatively specify the password as a second argument:
 
-  <info>php app/console fos:user:change-password matthieu mypassword</info>
+  <info>php %command.full_name% matthieu mypassword</info>
 
 EOT
             );
     }
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -63,38 +64,40 @@ EOT
     }
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->getArgument('username')) {
-            $username = $this->getHelper('dialog')->askAndValidate(
-                $output,
-                'Please give the username:',
-                function($username) {
-                    if (empty($username)) {
-                        throw new \Exception('Username can not be empty');
-                    }
+        $questions = array();
 
-                    return $username;
+        if (!$input->getArgument('username')) {
+            $question = new Question('Please give the username:');
+            $question->setValidator(function ($username) {
+                if (empty($username)) {
+                    throw new \Exception('Username can not be empty');
                 }
-            );
-            $input->setArgument('username', $username);
+
+                return $username;
+            });
+            $questions['username'] = $question;
         }
 
         if (!$input->getArgument('password')) {
-            $password = $this->getHelper('dialog')->askHiddenResponseAndValidate(
-                $output,
-                'Please enter the new password:',
-                function($password) {
-                    if (empty($password)) {
-                        throw new \Exception('Password can not be empty');
-                    }
-
-                    return $password;
+            $question = new Question('Please enter the new password:');
+            $question->setValidator(function ($password) {
+                if (empty($password)) {
+                    throw new \Exception('Password can not be empty');
                 }
-            );
-            $input->setArgument('password', $password);
+
+                return $password;
+            });
+            $question->setHidden(true);
+            $questions['password'] = $question;
+        }
+
+        foreach ($questions as $name => $question) {
+            $answer = $this->getHelper('question')->ask($input, $output, $question);
+            $input->setArgument($name, $answer);
         }
     }
 }

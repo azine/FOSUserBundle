@@ -12,7 +12,6 @@
 namespace FOS\UserBundle\Mailer;
 
 use FOS\UserBundle\Model\UserInterface;
-use FOS\UserBundle\Mailer\MailerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -20,11 +19,34 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class TwigSwiftMailer implements MailerInterface
 {
+    /**
+     * @var \Swift_Mailer
+     */
     protected $mailer;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
     protected $router;
+
+    /**
+     * @var \Twig_Environment
+     */
     protected $twig;
+
+    /**
+     * @var array
+     */
     protected $parameters;
 
+    /**
+     * TwigSwiftMailer constructor.
+     *
+     * @param \Swift_Mailer         $mailer
+     * @param UrlGeneratorInterface $router
+     * @param \Twig_Environment     $twig
+     * @param array                 $parameters
+     */
     public function __construct(\Swift_Mailer $mailer, UrlGeneratorInterface $router, \Twig_Environment $twig, array $parameters)
     {
         $this->mailer = $mailer;
@@ -33,36 +55,42 @@ class TwigSwiftMailer implements MailerInterface
         $this->parameters = $parameters;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['template']['confirmation'];
-        $url = $this->router->generate('fos_user_registration_confirm', array('token' => $user->getConfirmationToken()), true);
+        $url = $this->router->generate('fos_user_registration_confirm', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = array(
             'user' => $user,
-            'confirmationUrl' => $url
+            'confirmationUrl' => $url,
         );
 
-        $this->sendMessage($template, $context, $this->parameters['from_email']['confirmation'], $user->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email']['confirmation'], (string) $user->getEmail());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['template']['resetting'];
-        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), true);
+        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = array(
             'user' => $user,
-            'confirmationUrl' => $url
+            'confirmationUrl' => $url,
         );
 
-        $this->sendMessage($template, $context, $this->parameters['from_email']['resetting'], $user->getEmail());
+        $this->sendMessage($template, $context, $this->parameters['from_email']['resetting'], (string) $user->getEmail());
     }
 
     /**
      * @param string $templateName
      * @param array  $context
-     * @param string $fromEmail
+     * @param array  $fromEmail
      * @param string $toEmail
      */
     protected function sendMessage($templateName, $context, $fromEmail, $toEmail)

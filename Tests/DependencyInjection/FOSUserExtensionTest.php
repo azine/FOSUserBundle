@@ -11,9 +11,9 @@
 
 namespace FOS\UserBundle\Tests\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use FOS\UserBundle\DependencyInjection\FOSUserExtension;
+use FOS\UserBundle\Util\LegacyFormHelper;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Parser;
 
 class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
@@ -179,10 +179,10 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->createEmptyConfiguration();
 
-        $this->assertParameter('fos_user_profile', 'fos_user.profile.form.type');
-        $this->assertParameter('fos_user_registration', 'fos_user.registration.form.type');
-        $this->assertParameter('fos_user_change_password', 'fos_user.change_password.form.type');
-        $this->assertParameter('fos_user_resetting', 'fos_user.resetting.form.type');
+        $this->assertParameter(LegacyFormHelper::getType('FOS\UserBundle\Form\Type\ProfileFormType'), 'fos_user.profile.form.type');
+        $this->assertParameter(LegacyFormHelper::getType('FOS\UserBundle\Form\Type\RegistrationFormType'), 'fos_user.registration.form.type');
+        $this->assertParameter(LegacyFormHelper::getType('FOS\UserBundle\Form\Type\ChangePasswordFormType'), 'fos_user.change_password.form.type');
+        $this->assertParameter(LegacyFormHelper::getType('FOS\UserBundle\Form\Type\ResettingFormType'), 'fos_user.resetting.form.type');
     }
 
     public function testUserLoadFormClass()
@@ -245,8 +245,8 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertParameter(false, 'fos_user.registration.confirmation.enabled');
         $this->assertParameter(array('webmaster@example.com' => 'webmaster'), 'fos_user.registration.confirmation.from_email');
-        $this->assertParameter('FOSUserBundle:Registration:email.txt.twig', 'fos_user.registration.confirmation.template');
-        $this->assertParameter('FOSUserBundle:Resetting:email.txt.twig', 'fos_user.resetting.email.template');
+        $this->assertParameter('@FOSUser/Registration/email.txt.twig', 'fos_user.registration.confirmation.template');
+        $this->assertParameter('@FOSUser/Resetting/email.txt.twig', 'fos_user.resetting.email.template');
         $this->assertParameter(array('webmaster@example.com' => 'webmaster'), 'fos_user.resetting.email.from_email');
         $this->assertParameter(86400, 'fos_user.resetting.token_ttl');
     }
@@ -297,8 +297,11 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider userManagerSetFactoryProvider
+     *
+     * @param $dbDriver
+     * @param $doctrineService
      */
-    public function testUserManagerSetFactory($dbDriver, $managerService, $doctrineService)
+    public function testUserManagerSetFactory($dbDriver, $doctrineService)
     {
         $this->configuration = new ContainerBuilder();
         $loader = new FOSUserExtension();
@@ -306,23 +309,31 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
         $config['db_driver'] = $dbDriver;
         $loader->load(array($config), $this->configuration);
 
-        $definition = $this->configuration->getDefinition($managerService);
+        $definition = $this->configuration->getDefinition('fos_user.object_manager');
+
+        $this->assertAlias($doctrineService, 'fos_user.doctrine_registry');
 
         if (method_exists($definition, 'getFactory')) {
-            $factory = array(new Reference($doctrineService), 'getManager');
-            $this->assertEquals($factory, $definition->getFactory());
+            $factory = $definition->getFactory();
+
+            $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $factory[0]);
+            $this->assertSame('fos_user.doctrine_registry', (string) $factory[0]);
+            $this->assertSame('getManager', $factory[1]);
         } else {
-            $this->assertEquals($doctrineService, $definition->getFactoryService());
-            $this->assertEquals('getManager', $definition->getFactoryMethod());
+            $this->assertSame('fos_user.doctrine_registry', $definition->getFactoryService());
+            $this->assertSame('getManager', $definition->getFactoryMethod());
         }
     }
 
+    /**
+     * @return array
+     */
     public function userManagerSetFactoryProvider()
     {
         return array(
-            array('orm', 'fos_user.entity_manager', 'doctrine'),
-            array('couchdb', 'fos_user.document_manager', 'doctrine_couchdb'),
-            array('mongodb', 'fos_user.document_manager', 'doctrine_mongodb'),
+            array('orm', 'doctrine'),
+            array('couchdb', 'doctrine_couchdb'),
+            array('mongodb', 'doctrine_mongodb'),
         );
     }
 
@@ -345,7 +356,7 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * getEmptyConfig
+     * getEmptyConfig.
      *
      * @return array
      */
@@ -361,6 +372,9 @@ EOF;
         return $parser->parse($yaml);
     }
 
+    /**
+     * @return mixed
+     */
     protected function getFullConfig()
     {
         $yaml = <<<EOF
@@ -428,7 +442,7 @@ EOF;
      */
     private function assertAlias($value, $key)
     {
-        $this->assertEquals($value, (string) $this->configuration->getAlias($key), sprintf('%s alias is correct', $key));
+        $this->assertSame($value, (string) $this->configuration->getAlias($key), sprintf('%s alias is correct', $key));
     }
 
     /**
@@ -437,7 +451,7 @@ EOF;
      */
     private function assertParameter($value, $key)
     {
-        $this->assertEquals($value, $this->configuration->getParameter($key), sprintf('%s parameter is correct', $key));
+        $this->assertSame($value, $this->configuration->getParameter($key), sprintf('%s parameter is correct', $key));
     }
 
     /**

@@ -11,9 +11,9 @@
 
 namespace FOS\UserBundle\EventListener;
 
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Security\LoginManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -21,15 +21,31 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
 
 class AuthenticationListener implements EventSubscriberInterface
 {
+    /**
+     * @var LoginManagerInterface
+     */
     private $loginManager;
+
+    /**
+     * @var string
+     */
     private $firewallName;
 
+    /**
+     * AuthenticationListener constructor.
+     *
+     * @param LoginManagerInterface $loginManager
+     * @param string                $firewallName
+     */
     public function __construct(LoginManagerInterface $loginManager, $firewallName)
     {
         $this->loginManager = $loginManager;
         $this->firewallName = $firewallName;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(
@@ -39,17 +55,13 @@ class AuthenticationListener implements EventSubscriberInterface
         );
     }
 
-    public function authenticate(FilterUserResponseEvent $event, $eventName = null, EventDispatcherInterface $eventDispatcher = null)
+    /**
+     * @param FilterUserResponseEvent  $event
+     * @param string                   $eventName
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function authenticate(FilterUserResponseEvent $event, $eventName, EventDispatcherInterface $eventDispatcher)
     {
-        if (!$event->getUser()->isEnabled()) {
-            return;
-        }
-
-        // BC for SF < 2.4
-        if (null === $eventDispatcher) {
-            $eventDispatcher = $event->getDispatcher();
-        }
-
         try {
             $this->loginManager->logInUser($this->firewallName, $event->getUser(), $event->getResponse());
 

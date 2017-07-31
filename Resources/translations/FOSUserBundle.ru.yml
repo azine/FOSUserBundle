@@ -1,50 +1,41 @@
-# Group
 group:
     edit:
-        submit: Обновить группу
+        submit: 'Обновить группу'
     show:
-        name: Название группы
+        name: 'Название группы'
     new:
-        submit: Создать группу
+        submit: 'Создать группу'
     flash:
-        updated: Группа обновлена
-        created: Группа создана
-        deleted: Группа удалена
-
-# Security
+        updated: 'Группа обновлена.'
+        created: 'Группа создана.'
+        deleted: 'Группа удалена.'
 security:
     login:
-        username: Имя пользователя
+        username: 'Имя пользователя'
         password: Пароль
-        remember_me: Запомнить меня
+        remember_me: 'Запомнить меня'
         submit: Войти
-
-# Profile
 profile:
     show:
-        username: Имя пользователя
-        email: Электронная почта
+        username: 'Имя пользователя'
+        email: 'Электронная почта'
     edit:
         submit: Обновить
     flash:
-        updated: Профиль пользователя обновлен
-
-# Password change
+        updated: 'Профиль пользователя обновлен.'
 change_password:
-    submit: Изменить пароль
+    submit: 'Изменить пароль'
     flash:
-        success: Пароль изменен
-
-# Registration
+        success: 'Пароль изменен.'
 registration:
-    check_email: Письмо отправлено на адрес %email%. В нём содержится ссылка, по которой вы можете подтвердить свою регистрацию.
-    confirmed: Поздравляем %username%, ваш аккаунт подтвержден.
-    back: Вернуться на предыдущую страницу.
-    submit: Регистрация
+    check_email: 'Письмо отправлено на адрес %email%. В нём содержится ссылка, по которой вы можете подтвердить свою регистрацию.'
+    confirmed: 'Поздравляем %username%, ваш аккаунт подтвержден.'
+    back: 'Вернуться на предыдущую страницу.'
+    submit: Зарегистрироваться
     flash:
-        user_created: Пользователь успешно создан
+        user_created: 'Пользователь успешно создан.'
     email:
-        subject: Добро пожаловать, %username%!
+        subject: 'Добро пожаловать, %username%!'
         message: |
             Приветствуем, %username%!
 
@@ -53,20 +44,22 @@ registration:
             С наилучшими пожеланиями,
             команда сайта.
 
-# Password resetting
 resetting:
-    password_already_requested: Пароль для данного пользователя уже запрашивался за последние 24 часа.
-    check_email: Письмо на адрес %email% уже отправлено. Оно содержит ссылку, при переходе по которой ваш пароль будет сброшен.
+    check_email: |
+        Письмо отправлено. Оно содержит ссылку, при переходе по которой ваш пароль будет сброшен.
+        Заметьте, вы сможете запросить новый пароль только через %tokenLifetime% часов.
+
+        Если вы не получили письмо, проверьте папку Спам или попробуйте снова.
+
     request:
-        invalid_username: Пользователь "%username%" не существует.
-        username: Имя пользователя
-        submit: Сбросить пароль
+        username: 'Имя пользователя или электронная почта'
+        submit: 'Сбросить пароль'
     reset:
-        submit: Изменить пароль
+        submit: 'Изменить пароль'
     flash:
-        success: Пароль успешно сброшен
+        success: 'Пароль успешно сброшен.'
     email:
-        subject: Сброс пароля
+        subject: 'Сброс пароля'
         message: |
             Приветствуем, %username%!
 
@@ -75,20 +68,17 @@ resetting:
             С наилучшими пожеланиями,
             команда сайта.
 
-# Global strings
 layout:
     logout: Выход
     login: Вход
     register: Регистрация
-    logged_in_as: Вы вошли как %username%
-
-# Form field labels
+    logged_in_as: 'Вы вошли как %username%'
 form:
-    group_name: Название группы
-    username: Имя пользователя
-    email: Электронная почта
-    current_password: Текущий пароль
+    group_name: 'Название группы'
+    username: 'Имя пользователя'
+    email: 'Электронная почта'
+    current_password: 'Текущий пароль'
     password: Пароль
-    password_confirmation: Подтвердите пароль
-    new_password: Новый пароль
-    new_password_confirmation: Подтвердите пароль
+    password_confirmation: 'Подтвердите пароль'
+    new_password: 'Новый пароль'
+    new_password_confirmation: 'Подтвердите пароль'

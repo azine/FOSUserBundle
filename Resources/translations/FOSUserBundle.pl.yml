@@ -1,50 +1,41 @@
-# Group
 group:
     edit:
-        submit: Edytuj grupę
+        submit: 'Edytuj grupę'
     show:
-        name: Nazwa grupy
+        name: 'Nazwa grupy'
     new:
-        submit: Utwórz grupę
+        submit: 'Utwórz grupę'
     flash:
-        updated: Grupa została zaktualizowana
-        created: Grupa została utworzona
-        deleted: Grupa została usunięta
-
-# Security
+        updated: 'Grupa została zaktualizowana.'
+        created: 'Grupa została utworzona.'
+        deleted: 'Grupa została usunięta.'
 security:
     login:
-        username: Nazwa użytkownika
+        username: 'Nazwa użytkownika'
         password: Hasło
-        remember_me: Nie wylogowuj mnie
+        remember_me: 'Nie wylogowuj mnie'
         submit: Zaloguj
-
-# Profile
 profile:
     show:
-        username: Nazwa użytkownika
+        username: 'Nazwa użytkownika'
         email: E-mail
     edit:
-        submit: Edytuj użytkownika
+        submit: 'Edytuj użytkownika'
     flash:
-        updated: Zapisano zmiany w profilu
-
-# Password change
+        updated: 'Zapisano zmiany w profilu.'
 change_password:
-    submit: Zmień hasło
+    submit: 'Zmień hasło'
     flash:
-        success: Hasło zostało zmienione
-
-# Registration
+        success: 'Hasło zostało zmienione.'
 registration:
-    check_email: Na adres %email% wysłano wiadomość e-mail. Zawiera ona link, na który należy kliknąć, aby aktywować konto.
-    confirmed: Gratulacje %username%, potwierdziłeś konto.
-    back: Powrót do poprzedniej strony.
+    check_email: 'Na adres %email% wysłano wiadomość e-mail. Zawiera ona link, na który należy kliknąć, aby aktywować konto.'
+    confirmed: 'Gratulacje %username%, potwierdziłeś konto.'
+    back: 'Powrót do poprzedniej strony.'
     submit: Zarejestruj
     flash:
-        user_created: Stworzono użytkownika
+        user_created: 'Stworzono użytkownika.'
     email:
-        subject: Witaj %username%!
+        subject: 'Witaj %username%!'
         message: |
             Cześć %username%!
 
@@ -53,20 +44,22 @@ registration:
             Pozdrawiamy,
             Zespół.
 
-# Password resetting
 resetting:
-    password_already_requested: W przeciągu ostatnich 24 godzin nastąpiła już próba odzyskania hasła.
-    check_email: Na adres %email% wysłano wiadomość e-mail. Zawiera ona link, w którego należy kliknąć, aby zresetować hasło.
+    check_email: |
+        E-mail został wysłany. Zawiera on link do formularza zmiany hasła.
+        Uwaga: Możesz zresetować hasło tylko jeden raz w ciągu %tokenLifetime% godzin.
+
+        Sprawdź swoją skrzynkę pocztową, jeśli jednak nie widzisz wiadomości od nas, sprawdź folder spam lub spróbuj ponownie później.
+
     request:
-        invalid_username: Nazwa użytkownika lub e-mail "%username%" nie istnieje.
-        username: Nazwa użytkownika lub e-mail
-        submit: Resetuj hasło
+        username: 'Nazwa użytkownika lub e-mail'
+        submit: 'Resetuj hasło'
     reset:
-        submit: Zmień hasło
+        submit: 'Zmień hasło'
     flash:
-        success: Hasło zostało zresetowane
+        success: 'Hasło zostało zresetowane.'
     email:
-        subject: Resetowanie hasła
+        subject: 'Resetowanie hasła'
         message: |
             Cześć %username%!
 
@@ -75,20 +68,17 @@ resetting:
             Pozdrawiamy,
             Zespół.
 
-# Global strings
 layout:
     logout: Wyloguj
     login: Zaloguj
     register: Zarejestruj
-    logged_in_as: Zalogowano jako %username%
-
-# Form field labels
+    logged_in_as: 'Zalogowano jako %username%'
 form:
-    group_name: Nazwa grupy
-    username: Nazwa użytkownika
+    group_name: 'Nazwa grupy'
+    username: 'Nazwa użytkownika'
     email: E-mail
-    current_password: Obecne hasło
+    current_password: 'Obecne hasło'
     password: Hasło
-    password_confirmation: Powtórz hasło
-    new_password: Nowe hasło
-    new_password_confirmation: Powtórz hasło
+    password_confirmation: 'Powtórz hasło'
+    new_password: 'Nowe hasło'
+    new_password_confirmation: 'Powtórz hasło'

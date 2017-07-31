@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 interface UserInterface extends AdvancedUserInterface, \Serializable
 {
     const ROLE_DEFAULT = 'ROLE_USER';
+
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /**
@@ -53,6 +54,11 @@ interface UserInterface extends AdvancedUserInterface, \Serializable
      * @return self
      */
     public function setUsernameCanonical($usernameCanonical);
+
+    /**
+     * @param string|null $salt
+     */
+    public function setSalt($salt);
 
     /**
      * Gets email.
@@ -114,30 +120,21 @@ interface UserInterface extends AdvancedUserInterface, \Serializable
     /**
      * Tells if the the given user has the super admin role.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuperAdmin();
 
     /**
-     * @param boolean $boolean
+     * @param bool $boolean
      *
      * @return self
      */
     public function setEnabled($boolean);
 
     /**
-     * Sets the locking status of the user.
+     * Sets the super admin status.
      *
-     * @param boolean $boolean
-     *
-     * @return self
-     */
-    public function setLocked($boolean);
-
-    /**
-     * Sets the super admin status
-     *
-     * @param boolean $boolean
+     * @param bool $boolean
      *
      * @return self
      */
@@ -151,7 +148,7 @@ interface UserInterface extends AdvancedUserInterface, \Serializable
     public function getConfirmationToken();
 
     /**
-     * Sets the confirmation token
+     * Sets the confirmation token.
      *
      * @param string $confirmationToken
      *
@@ -171,14 +168,14 @@ interface UserInterface extends AdvancedUserInterface, \Serializable
     /**
      * Checks whether the password reset request has expired.
      *
-     * @param integer $ttl Requests older than this many seconds will be considered expired
+     * @param int $ttl Requests older than this many seconds will be considered expired
      *
-     * @return boolean true if the user's password request is non expired, false otherwise
+     * @return int
      */
     public function isPasswordRequestNonExpired($ttl);
 
     /**
-     * Sets the last login time
+     * Sets the last login time.
      *
      * @param \DateTime $time
      *
@@ -189,14 +186,14 @@ interface UserInterface extends AdvancedUserInterface, \Serializable
     /**
      * Never use this to check if this user has access to anything!
      *
-     * Use the SecurityContext, or an implementation of AccessDecisionManager
+     * Use the AuthorizationChecker, or an implementation of AccessDecisionManager
      * instead, e.g.
      *
-     *         $securityContext->isGranted('ROLE_USER');
+     *         $authorizationChecker->isGranted('ROLE_USER');
      *
      * @param string $role
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($role);
 

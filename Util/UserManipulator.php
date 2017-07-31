@@ -11,11 +11,15 @@
 
 namespace FOS\UserBundle\Util;
 
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Executes some manipulations on the users
+ * Executes some manipulations on the users.
  *
  * @author Christophe Coevoet <stof@notk.org>
  * @author Luis Cordova <cordoval@gmail.com>
@@ -23,25 +27,44 @@ use FOS\UserBundle\Model\UserManagerInterface;
 class UserManipulator
 {
     /**
-     * User manager
+     * User manager.
      *
      * @var UserManagerInterface
      */
     private $userManager;
 
-    public function __construct(UserManagerInterface $userManager)
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
+     * UserManipulator constructor.
+     *
+     * @param UserManagerInterface     $userManager
+     * @param EventDispatcherInterface $dispatcher
+     * @param RequestStack             $requestStack
+     */
+    public function __construct(UserManagerInterface $userManager, EventDispatcherInterface $dispatcher, RequestStack $requestStack)
     {
         $this->userManager = $userManager;
+        $this->dispatcher = $dispatcher;
+        $this->requestStack = $requestStack;
     }
 
     /**
      * Creates a user and returns it.
      *
-     * @param string  $username
-     * @param string  $password
-     * @param string  $email
-     * @param Boolean $active
-     * @param Boolean $superadmin
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @param bool   $active
+     * @param bool   $superadmin
      *
      * @return \FOS\UserBundle\Model\UserInterface
      */
@@ -51,9 +74,12 @@ class UserManipulator
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setPlainPassword($password);
-        $user->setEnabled((Boolean) $active);
-        $user->setSuperAdmin((Boolean) $superadmin);
+        $user->setEnabled((bool) $active);
+        $user->setSuperAdmin((bool) $superadmin);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_CREATED, $event);
 
         return $user;
     }
@@ -68,6 +94,9 @@ class UserManipulator
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setEnabled(true);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_ACTIVATED, $event);
     }
 
     /**
@@ -80,6 +109,9 @@ class UserManipulator
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setEnabled(false);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_DEACTIVATED, $event);
     }
 
     /**
@@ -93,6 +125,9 @@ class UserManipulator
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setPlainPassword($password);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_PASSWORD_CHANGED, $event);
     }
 
     /**
@@ -105,6 +140,9 @@ class UserManipulator
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setSuperAdmin(true);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_PROMOTED, $event);
     }
 
     /**
@@ -117,6 +155,9 @@ class UserManipulator
         $user = $this->findUserByUsernameOrThrowException($username);
         $user->setSuperAdmin(false);
         $this->userManager->updateUser($user);
+
+        $event = new UserEvent($user, $this->getRequest());
+        $this->dispatcher->dispatch(FOSUserEvents::USER_DEMOTED, $event);
     }
 
     /**
@@ -125,7 +166,7 @@ class UserManipulator
      * @param string $username
      * @param string $role
      *
-     * @return Boolean true if role was added, false if user already had the role
+     * @return bool true if role was added, false if user already had the role
      */
     public function addRole($username, $role)
     {
@@ -145,7 +186,7 @@ class UserManipulator
      * @param string $username
      * @param string $role
      *
-     * @return Boolean true if role was removed, false if user didn't have the role
+     * @return bool true if role was removed, false if user didn't have the role
      */
     public function removeRole($username, $role)
     {
@@ -177,5 +218,13 @@ class UserManipulator
         }
 
         return $user;
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 }

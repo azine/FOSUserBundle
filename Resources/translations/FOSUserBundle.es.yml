@@ -1,50 +1,41 @@
-# Group
 group:
     edit:
-        submit: Actualizar grupo
+        submit: 'Actualizar grupo'
     show:
-        name: Nombre de grupo
+        name: 'Nombre de grupo'
     new:
-        submit: Crear grupo
+        submit: 'Crear grupo'
     flash:
-        updated: El grupo ha sido actualizado
-        created: El grupo ha sido creado
-        deleted: El grupo ha sido borrado
-
-# Security
+        updated: 'El grupo ha sido actualizado.'
+        created: 'El grupo ha sido creado.'
+        deleted: 'El grupo ha sido borrado.'
 security:
     login:
-        username: Nombre de usuario
+        username: 'Nombre de usuario'
         password: Contraseña
         remember_me: Recordar
         submit: Entrar
-
-# Profile
 profile:
     show:
-        username: Nombre de usuario
+        username: 'Nombre de usuario'
         email: Email
     edit:
-        submit: Actualizar usuario
+        submit: 'Actualizar usuario'
     flash:
-        updated: El perfil ha sido actualizado
-
-# Password change
+        updated: 'El perfil ha sido actualizado.'
 change_password:
-    submit: Cambiar contraseña
+    submit: 'Cambiar contraseña'
     flash:
-        success: La contraseña se ha cambiado con éxito
-
-# Registration
+        success: 'La contraseña se ha cambiado con éxito.'
 registration:
-    check_email: Se ha enviado un email a %email%. Contiene un enlace de activación que debes presionar para activar tu cuenta.
-    confirmed: Felicidades %username%, tu cuenta está ahora confirmada.
-    back: Volver a la página original.
+    check_email: 'Se ha enviado un email a %email%. Contiene un enlace de activación que debes presionar para activar tu cuenta.'
+    confirmed: 'Felicidades %username%, tu cuenta está ahora confirmada.'
+    back: 'Volver a la página original.'
     submit: Registrar
     flash:
-        user_created: El usuario se ha creado satisfactoriamente
+        user_created: 'El usuario se ha creado satisfactoriamente.'
     email:
-        subject: Bienvenido %username%!
+        subject: 'Bienvenido %username%!'
         message: |
             Hola %username%!
 
@@ -53,21 +44,23 @@ registration:
             Atentamente,
             el Equipo.
 
-# Password resetting
 resetting:
-    password_already_requested: La contraseña para este usuario ya ha sido solicitada dentro de las 24 horas.
-    check_email: Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
+    check_email: |
+        Un email ha sido enviado. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
+         Nota: Solo se puede solicitar una nueva contraseña dentro %tokenLifetime% horas.
+
+        Si no recibe un correo electrónico, comprueba tu carpeta de correo no deseado o inténtelo de nuevo.
+
     request:
-        invalid_username: El usuario o dirección de correo "%username%" no existe.
-        username: Nombre de usuario
-        submit: Restablecer contraseña
+        username: 'Nombre de usuario o correo electrónico'
+        submit: 'Restablecer contraseña'
     reset:
-        submit: Cambiar contraseña
+        submit: 'Cambiar contraseña'
     flash:
-        success: La contraseña se ha cambiado con éxito
+        success: 'La contraseña se ha cambiado con éxito.'
     email:
-        subject: Restablecer Contraseña
-        message : |
+        subject: 'Restablecer Contraseña'
+        message: |
             Hola %username%!
 
             Para restablecer tu contraseña - por favor visita %confirmationUrl%
@@ -75,20 +68,17 @@ resetting:
             Atentamente,
             el Equipo.
 
-# Global strings
 layout:
     logout: Salir
     login: Entrar
     register: Registrar
-    logged_in_as: Identificado como %username%
-
-# Form field labels
+    logged_in_as: 'Identificado como %username%'
 form:
-    group_name: Nombre de grupo
-    username: Nombre de usuario
+    group_name: 'Nombre de grupo'
+    username: 'Nombre de usuario'
     email: Email
-    current_password: Contraseña actual
+    current_password: 'Contraseña actual'
     password: Contraseña
-    password_confirmation: Repita la contraseña
-    new_password: Nueva contraseña
-    new_password_confirmation: Repita la contraseña
+    password_confirmation: 'Repita la contraseña'
+    new_password: 'Nueva contraseña'
+    new_password_confirmation: 'Repita la contraseña'
