@@ -1,56 +1,66 @@
+# Group
 group:
     edit:
-        submit: 'Gruppe aktualisieren'
+        submit: Gruppe aktualisieren
     show:
         name: Gruppenname
     new:
-        submit: 'Gruppe erstellen'
+        submit: Gruppe erstellen
     flash:
-        updated: 'Die Gruppe wurde aktualisiert.'
-        created: 'Die Gruppe wurde erstellt.'
-        deleted: 'Die Gruppe wurde gelöscht.'
+        updated: Die Gruppe wurde aktualisiert
+        created: Die Gruppe wurde erstellt
+        deleted: Die Gruppe wurde gelöscht
+
+# Security
 security:
     login:
         username: Benutzername
         password: Passwort
-        remember_me: 'An mich erinnern'
+        remember_me: An mich erinnern
         submit: Anmelden
+
+# Profile
 profile:
     show:
         username: Benutzername
         email: E-Mail
     edit:
-        submit: 'Benutzer aktualisieren'
+        submit: Benutzer aktualisieren
     flash:
-        updated: 'Das Benutzerprofil wurde aktualisiert.'
+        updated: Das Benutzerprofil wurde aktualisiert
+
+# Password change
 change_password:
-    submit: 'Passwort ändern'
+    submit: Passwort ändern
     flash:
+        success: Das Passwort wurde geändert
+
+# Registration
         success: 'Das Passwort wurde geändert.'
 
 email_update:
     flash:
-        info: 'Bitte bestätigen Sie Ihre E-Mail-Adresse'
-        success: 'E-mail wurde erfolgreich aktualisiert'
+        info: 'Bitte überprüfen Sie das Postfach der neuen Email-Adresse und klicken Sie den Link im Bestätigungsmail.'
+        success: 'E-mail wurde erfolgreich aktualisiert.'
     email:
-        subject: 'Email zurücksetzen'
+        subject: 'Neue Email-Adresse Aktivierung bestätigen.'
         message: |
             Hallo %username%!
 
-            Besuchen Sie bitte folgende Seite, um Ihr Email zurückzusetzen: %confirmationUrl%
+            Um Ihre neue Email-Adresse zu aktivieren, besuchen Sie bitten den folgenden Link: %confirmationUrl%
 
-            Mit besten Grüßen,
+            Freundliche Grüße,
             das Team.
 
 registration:
-    check_email: 'Eine E-Mail wurde an %email% gesendet. Sie enthält einen Link, den Sie anklicken müssen, um Ihr Benutzerkonto zu bestätigen.'
-    confirmed: 'Glückwunsch %username%, Ihr Benutzerkonto ist jetzt bestätigt.'
-    back: 'Zurück zur ursprünglichen Seite.'
+    check_email: Eine E-Mail wurde an %email% gesendet. Sie enthält einen Link, den Sie anklicken müssen, um Ihr Benutzerkonto zu bestätigen.
+    confirmed: Glückwunsch %username%, Ihr Benutzerkonto ist jetzt bestätigt.
+    back: Zurück zur ursprünglichen Seite.
     submit: Registrieren
     flash:
-        user_created: 'Der Benutzer wurde erfolgreich erstellt.'
+        user_created: Der Benutzer wurde erfolgreich erstellt
     email:
-        subject: 'Willkommen %username%!'
+        subject: Willkommen %username%!
         message: |
             Hallo %username%!
 
@@ -59,22 +69,20 @@ registration:
             Mit besten Grüßen,
             das Team.
 
+# Password resetting
 resetting:
-    check_email: |
-        Eine E-Mail wurde verschickt. Sie beinhaltet einen Link zum Zurücksetzen des Passwortes.
-        Hinweis: Ein neues Passwort kann nur alle %tokenLifetime% Stunden beantragt werden.
-
-        Eventuell wurde diese E-Mail als Spam markiert, wenn sie nicht angekommen ist.
-
+    password_already_requested: Für diesen Benutzer wurde in den vergangenen 24 Stunden bereits ein neues Passwort beantragt.
+    check_email: Eine E-Mail wurde an %email% gesendet. Sie enthält einen Link, den Sie anklicken müssen, um Ihr Passwort zurückzusetzen.
     request:
-        username: 'Benutzername oder E-Mail-Adresse'
-        submit: 'Passwort zurücksetzen'
+        invalid_username: Der Benutzername oder die E-Mail-Adresse "%username%" existiert nicht.
+        username: Benutzername oder E-Mail-Adresse
+        submit: Passwort zurücksetzen
     reset:
-        submit: 'Passwort ändern'
+        submit: Passwort ändern
     flash:
-        success: 'Das Passwort wurde erfolgreich zurückgesetzt.'
+        success: Das Passwort wurde erfolgreich zurückgesetzt
     email:
-        subject: 'Passwort zurücksetzen'
+        subject: Passwort zurücksetzen
         message: |
             Hallo %username%!
 
@@ -83,17 +91,20 @@ resetting:
             Mit besten Grüßen,
             das Team.
 
+# Global strings
 layout:
     logout: Abmelden
     login: Anmelden
     register: Registrieren
-    logged_in_as: 'Angemeldet als %username%'
+    logged_in_as: Angemeldet als %username%
+
+# Form field labels
 form:
     group_name: Gruppenname
     username: Benutzername
     email: E-Mail-Adresse
-    current_password: 'Derzeitiges Passwort'
+    current_password: Derzeitiges Passwort
     password: Passwort
-    password_confirmation: 'Passwort bestätigen'
-    new_password: 'Neues Passwort'
-    new_password_confirmation: 'Neues Passwort bestätigen'
+    password_confirmation: Passwort bestätigen
+    new_password: Neues Passwort
+    new_password_confirmation: Neues Passwort bestätigen
