@@ -24,6 +24,27 @@ To enable it, update your configuration as follows:
             confirmation:
                 enabled: true
 
+Confirmation of Changed Email
+-----------------------------
+
+When a user changes her email address on the edit profile page,
+the bundle can send a confirmation email to the new address. The
+new address will only be activated / written to the database once
+the user clicks on the confirmation link in the confirmation email.
+
+Requiring email update confirmation is turned off by default.
+To enable it, update your configuration as follows:
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    fos_user:
+        # ...
+        profile:
+            email_update_confirmation:
+                enabled: true
+
+
 Password Reset
 --------------
 

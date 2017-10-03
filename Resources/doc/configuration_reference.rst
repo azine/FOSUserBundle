@@ -22,6 +22,9 @@ All available configuration options are listed below with their default values.
                 type:               FOS\UserBundle\Form\Type\ProfileFormType # or 'fos_user_profile' on Symfony < 2.8
                 name:               fos_user_profile_form
                 validation_groups:  [Profile, Default]
+            email_update_confirmation:
+                enabled:            false # change to force confirmation of changed email by sending a confirmation link to the new address.
+                email_template:     '@FOSUser/Profile/email_update_confirmation.txt.twig'
         change_password:
             form:
                 type:               FOS\UserBundle\Form\Type\ChangePasswordFormType # or 'fos_user_change_password' on Symfony < 2.8
