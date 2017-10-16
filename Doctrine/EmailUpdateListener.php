@@ -2,10 +2,7 @@
 
 namespace FOS\UserBundle\Doctrine;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -14,17 +11,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Class EmailUpdateListener
  * @package FOS\UserBundle\Doctrine
  */
-class EmailUpdateListener implements EventSubscriber
+class EmailUpdateListener
 {
     /**
      * @var EmailUpdateConfirmation
      */
     private $emailUpdateConfirmation;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
     /**
      * @var RequestStack
@@ -34,38 +26,27 @@ class EmailUpdateListener implements EventSubscriber
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
+     * @param EmailUpdateConfirmation $emailUpdateConfirmation
      * @param RequestStack $requestStack
      */
-    public function __construct(ContainerInterface $container, RequestStack $requestStack)
+    public function __construct(EmailUpdateConfirmation $emailUpdateConfirmation, RequestStack $requestStack)
     {
-        $this->container = $container;
+        $this->emailUpdateConfirmation = $emailUpdateConfirmation;
         $this->requestStack = $requestStack;
-    }
-
-    public function getSubscribedEvents()
-    {
-        return array(
-            'preUpdate',
-        );
     }
 
     /**
      * Pre update listener based on doctrine common
      *
-     * @param LifecycleEventArgs $args
+     * @param PreUpdateEventArgs $args
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args)
     {
         $object = $args->getObject();
 
         if ($object instanceof UserInterface && $args instanceof PreUpdateEventArgs) {
 
             $user = $object;
-
-            if (null === $this->emailUpdateConfirmation) {
-                $this->emailUpdateConfirmation = $this->container->get('fos_user.email_update_confirmation');
-            }
 
             if($user->getConfirmationToken() != $this->emailUpdateConfirmation->getEmailConfirmedToken() && isset($args->getEntityChangeSet()['email'])){
 
