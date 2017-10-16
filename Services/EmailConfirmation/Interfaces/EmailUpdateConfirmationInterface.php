@@ -10,7 +10,6 @@ use FOS\UserBundle\Model\User;
  */
 interface EmailUpdateConfirmationInterface
 {
-
     /**
      * @param string $hashedEmail
      * @return string

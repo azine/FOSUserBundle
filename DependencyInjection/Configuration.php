@@ -113,6 +113,7 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->booleanNode('enabled')->defaultFalse()->end()
+                                ->scalarNode('cypher_method')->defaultNull()->end()
                                 ->scalarNode('email_template')->defaultValue('@FOSUser/Profile/email_update_confirmation.txt.twig')->end()
                             ->end()
                         ->end()

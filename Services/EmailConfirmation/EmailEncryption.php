@@ -14,16 +14,10 @@ use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailEncryptionInterfac
  */
 class EmailEncryption implements EmailEncryptionInterface
 {
-
     /**
-     * @var string $cipher
+     * @var string $encryptionMode
      */
-    private $cipher = 'rijndael-128';
-
-    /**
-     * @var string $mcryptMode
-     */
-    private $mcryptMode = 'cbc';
+    private $encryptionMode;
 
     /**
      * @var string User confirmation token. Use for email encryption
@@ -36,10 +30,15 @@ class EmailEncryption implements EmailEncryptionInterface
     private $email;
 
     /**
-     * EmailEncryption constructor.
+     * EmailEncryption cypher method (see http://php.net/manual/function.openssl-get-cipher-methods.php ).
+     * @param string $mode
      */
-    public function __construct()
+    public function __construct($mode = null)
     {
+        if(!$mode) {
+            $mode = openssl_get_cipher_methods(false)[0];
+        }
+        $this->encryptionMode = $mode;
     }
 
     /**
@@ -49,19 +48,19 @@ class EmailEncryption implements EmailEncryptionInterface
      */
     public function encryptEmailValue()
     {
-        $iv = mcrypt_create_iv($this->getMcryptIvSize(), MCRYPT_RAND);
+        $iv = openssl_random_pseudo_bytes($this->getIvSize());
 
-        $encryptedEmail = mcrypt_encrypt(
-            $this->cipher,
-            $this->getConfirmationToken(),
+        $encryptedEmail = openssl_encrypt(
             $this->email,
-            $this->mcryptMode,
+            $this->encryptionMode,
+            $this->getConfirmationToken(),
+            0,
             $iv
         );
 
-        $encryptedEmail = $iv . $encryptedEmail;
+        $encryptedEmail = base64_encode($iv . $encryptedEmail);
 
-        return base64_encode($encryptedEmail);
+        return $encryptedEmail;
     }
 
     /**
@@ -73,29 +72,27 @@ class EmailEncryption implements EmailEncryptionInterface
      */
     public function decryptEmailValue($encryptedEmail)
     {
-        $preparedEncryptedEmail = base64_decode($encryptedEmail);
-
-        $ivSize = $this->getMcryptIvSize();
+        $b64DecodedEmailHash = base64_decode($encryptedEmail);
+        $ivSize = $this->getIvSize();
 
         // Select IV part from encrypted value
-        $ivDec = substr($preparedEncryptedEmail, 0, $ivSize);
+        $iv = substr($b64DecodedEmailHash, 0, $ivSize);
 
         // Select email part from encrypted value
-        $preparedEncryptedEmail = substr($preparedEncryptedEmail, $ivSize);
+        $preparedEncryptedEmail = substr($b64DecodedEmailHash, $ivSize);
 
-        $decryptedEmail = mcrypt_decrypt(
-            $this->cipher,
-            $this->getConfirmationToken(),
+        $decryptedEmail = openssl_decrypt(
             $preparedEncryptedEmail,
-            $this->mcryptMode,
-            $ivDec
+            $this->encryptionMode,
+            $this->getConfirmationToken(),
+            0,
+            $iv
         );
 
         // Trim decrypted email from nul byte before return
         $email = rtrim($decryptedEmail, "\0");
         
-        if(!preg_match('/^.+\@\S+\.\S+$/', $email)){
-
+        if (!preg_match('/^.+\@\S+\.\S+$/', $email)) {
             throw new \InvalidArgumentException('Wrong email format was provided for decryptEmailValue function');
         }
         
@@ -164,8 +161,8 @@ class EmailEncryption implements EmailEncryptionInterface
      *
      * @return int
      */
-    protected function getMcryptIvSize()
+    protected function getIvSize()
     {
-        return mcrypt_get_iv_size($this->cipher, $this->mcryptMode);
+        return openssl_cipher_iv_length($this->encryptionMode);
     }
 }

@@ -3,21 +3,36 @@
 
 namespace FOS\UserBundle\Tests\Util;
 
+use FOS\UserBundle\Mailer\MailerInterface;
+use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use FOS\UserBundle\Services\EmailConfirmation\EmailEncryption;
+use FOS\UserBundle\Util\TokenGenerator;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 {
 
+    /** @var  ExpressionFunctionProviderInterface */
     private $provider;
+    /** @var  RouterInterface */
     private $router;
+    /** @var  TokenGenerator */
     private $tokenGenerator;
+    /** @var  MailerInterface */
     private $mailer;
+    /** @var  EmailEncryption */
     private $emailEncryption;
+    /** @var  EventDispatcher */
     private $eventDispatcher;
+    /** @var  EmailUpdateConfirmation */
     private $emailUpdateConfirmation;
+    /** @var  User */
     private $user;
-    
+    private $cypher_method = "AES-128-CBC";
+
 
     protected function setUp()
     {
@@ -31,7 +46,7 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 
         $this->tokenGenerator = $this->getMockBuilder('FOS\UserBundle\Util\TokenGenerator')->disableOriginalConstructor()->getMock();
         $this->mailer = $this->getMockBuilder('FOS\UserBundle\Mailer\TwigSwiftMailer')->disableOriginalConstructor()->getMock();
-        $this->emailEncryption = new EmailEncryption();
+        $this->emailEncryption = new EmailEncryption($this->cypher_method);
         $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
 
         $this->emailUpdateConfirmation = new EmailUpdateConfirmation($this->router, $this->tokenGenerator, $this->mailer, $this->emailEncryption, $this->eventDispatcher);
@@ -43,19 +58,12 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchEncryptedEmailFromConfirmationLinkMethod()
     {
-        $emailEncryption = new EmailEncryption();
+        $emailEncryption = new EmailEncryption($this->cypher_method);
         $emailEncryption->setEmail('foo@example.com');
         $emailEncryption->setUserConfirmationToken('test_token');
 
         $encryptedEmail = $emailEncryption->encryptEmailValue();
 
-        $email = $this->emailUpdateConfirmation->fetchEncryptedEmailFromConfirmationLink($encryptedEmail);
-        $this->assertEquals('foo@example.com', $email);
-    }
-
-    public function testFetchEncryptedEmailWithSpacesInsteadOfPlusSigns()
-    {
-        $encryptedEmail = 'dlx/ nzDXuaRWJ8q3STRneuZtkjGvyIY m4Z4pkT1SM=';
         $email = $this->emailUpdateConfirmation->fetchEncryptedEmailFromConfirmationLink($encryptedEmail);
         $this->assertEquals('foo@example.com', $email);
     }

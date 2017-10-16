@@ -2,6 +2,7 @@
 
 namespace FOS\UserBundle\Services\EmailConfirmation;
 
+use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Util\TokenGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -20,7 +21,6 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
 {
-
     const EMAIL_CONFIRMED = 'email_confirmed';
 
     /**
@@ -67,13 +67,13 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
      *
      * @param Router $router
      * @param TokenGenerator $tokenGenerator
-     * @param TwigSwiftMailer $mailer
+     * @param MailerInterface $mailer
      * @param EmailEncryptionInterface $emailEncryption
      */
     public function __construct(
         Router $router,
         TokenGenerator $tokenGenerator,
-        TwigSwiftMailer $mailer,
+        MailerInterface $mailer,
         EmailEncryptionInterface $emailEncryption,
         EventDispatcherInterface $eventDispatcher
     ) {
@@ -186,7 +186,6 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
 
         return $this;
     }
-
 
     /**
      * Get or create new user confirmation token.

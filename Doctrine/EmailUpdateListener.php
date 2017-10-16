@@ -10,7 +10,6 @@ use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-
 /**
  * Class EmailUpdateListener
  * @package FOS\UserBundle\Doctrine
@@ -92,5 +91,4 @@ class EmailUpdateListener implements EventSubscriber
             }
         }
     }
-
 }
