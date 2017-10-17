@@ -14,6 +14,7 @@ namespace FOS\UserBundle\Controller;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\User;
@@ -26,7 +27,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use FOS\UserBundle\Event\UserEvent;
 use Symfony\Component\Translation\Translator;
 
 /**
@@ -111,7 +111,8 @@ class ProfileController extends Controller
      * Confirm user`s email update.
      *
      * @param Request $request
-     * @param string $token
+     * @param string  $token
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function confirmEmailUpdateAction(Request $request, $token)
@@ -151,8 +152,8 @@ class ProfileController extends Controller
         $userManager->updateUser($user);
 
         $event = new UserEvent($user, $request);
-        $this->get('event_dispatcher')->dispatch( FOSUserEvents::EMAIL_UPDATE_SUCCESS, $event);
+        $this->get('event_dispatcher')->dispatch(FOSUserEvents::EMAIL_UPDATE_SUCCESS, $event);
 
-        return $this->redirect($this->generateUrl("fos_user_profile_show"));
+        return $this->redirect($this->generateUrl('fos_user_profile_show'));
     }
 }

@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Services\EmailConfirmation\Interfaces;
 
 /**
- * Interface EmailEncryptionInterface
- *
- * @package FOS\UserBundle\Services\EmailConfirmation\Interfaces
+ * Interface EmailEncryptionInterface.
  */
 interface EmailEncryptionInterface
 {
@@ -23,12 +30,14 @@ interface EmailEncryptionInterface
 
     /**
      * @param string $email Email to be encrypt/decrypt
+     *
      * @return $this
      */
     public function setEmail($email);
 
     /**
      * @param string $userConfirmationToken
+     *
      * @return $this
      */
     public function setUserConfirmationToken($userConfirmationToken);

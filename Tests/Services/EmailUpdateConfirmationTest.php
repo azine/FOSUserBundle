@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace FOS\UserBundle\Tests\Util;
 
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\User;
-use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use FOS\UserBundle\Services\EmailConfirmation\EmailEncryption;
+use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use FOS\UserBundle\Util\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
@@ -14,25 +22,23 @@ use Symfony\Component\Routing\RouterInterface;
 
 class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 {
-
-    /** @var  ExpressionFunctionProviderInterface */
+    /** @var ExpressionFunctionProviderInterface */
     private $provider;
-    /** @var  RouterInterface */
+    /** @var RouterInterface */
     private $router;
-    /** @var  TokenGenerator */
+    /** @var TokenGenerator */
     private $tokenGenerator;
-    /** @var  MailerInterface */
+    /** @var MailerInterface */
     private $mailer;
-    /** @var  EmailEncryption */
+    /** @var EmailEncryption */
     private $emailEncryption;
-    /** @var  EventDispatcher */
+    /** @var EventDispatcher */
     private $eventDispatcher;
-    /** @var  EmailUpdateConfirmation */
+    /** @var EmailUpdateConfirmation */
     private $emailUpdateConfirmation;
-    /** @var  User */
+    /** @var User */
     private $user;
-    private $cypher_method = "AES-128-CBC";
-
+    private $cypher_method = 'AES-128-CBC';
 
     protected function setUp()
     {
@@ -65,6 +71,6 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
         $encryptedEmail = $emailEncryption->encryptEmailValue();
 
         $email = $this->emailUpdateConfirmation->fetchEncryptedEmailFromConfirmationLink($encryptedEmail);
-        $this->assertEquals('foo@example.com', $email);
+        $this->assertSame('foo@example.com', $email);
     }
 }

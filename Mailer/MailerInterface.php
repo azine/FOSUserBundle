@@ -36,9 +36,8 @@ interface MailerInterface
      * Send an email to a user to confirm the changed email address.
      *
      * @param UserInterface $user
-     * @param string $confirmationUrl
-     * @param string $toEmail
+     * @param string        $confirmationUrl
+     * @param string        $toEmail
      */
     public function sendUpdateEmailConfirmation(UserInterface $user, $confirmationUrl, $toEmail);
-
 }

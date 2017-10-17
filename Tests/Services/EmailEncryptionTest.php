@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Tests\Util;
 
 use FOS\UserBundle\Services\EmailConfirmation\EmailEncryption;
@@ -13,7 +22,7 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
         $emailEncryption->setUserConfirmationToken('test_token');
 
         $encryptedEmail = $emailEncryption->encryptEmailValue();
-        $this->assertEquals('foo@example.com', $emailEncryption->decryptEmailValue($encryptedEmail));
+        $this->assertSame('foo@example.com', $emailEncryption->decryptEmailValue($encryptedEmail));
     }
 
     public function testDecryptFromWrongEmailFormat()
@@ -56,8 +65,7 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
 
         $confirmationToken = $emailEncryption->getConfirmationToken();
         $expectedConfirmationToken = pack('H*', hash('sha256', 'test_token'));
-        $this->assertEquals($expectedConfirmationToken, $confirmationToken);
-
+        $this->assertSame($expectedConfirmationToken, $confirmationToken);
     }
 
     public function testGetConfirmationTokenIfUserConfirmationTokenIsNotSet()

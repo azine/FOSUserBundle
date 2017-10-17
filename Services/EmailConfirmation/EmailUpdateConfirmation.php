@@ -1,23 +1,31 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Services\EmailConfirmation;
 
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Mailer\MailerInterface;
-use FOS\UserBundle\Model\User;
-use FOS\UserBundle\Util\TokenGenerator;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use FOS\UserBundle\Mailer\TwigSwiftMailer;
+use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailEncryptionInterface;
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailUpdateConfirmationInterface;
+use FOS\UserBundle\Util\TokenGenerator;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\UserEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Class EmailUpdateConfirmation
- * @package FOS\UserBundle\Services\EmailConfirmation
+ * Class EmailUpdateConfirmation.
  */
 class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
 {
@@ -65,9 +73,9 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     /**
      * EmailUpdateConfirmation constructor.
      *
-     * @param Router $router
-     * @param TokenGenerator $tokenGenerator
-     * @param MailerInterface $mailer
+     * @param Router                   $router
+     * @param TokenGenerator           $tokenGenerator
+     * @param MailerInterface          $mailer
      * @param EmailEncryptionInterface $emailEncryption
      */
     public function __construct(
@@ -101,7 +109,9 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     /**
      * Generate new confirmation link for new email based on user confirmation
      * token and hashed new user email.
+     *
      * @param Request $request
+     *
      * @return string
      */
     public function generateConfirmationLink(Request $request)
@@ -112,7 +122,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
 
         $encryptedEmail = $this->emailEncryption->encryptEmailValue();
 
-        $confirmationParams = array('token'  => $this->user->getConfirmationToken(), 'target' => $encryptedEmail);
+        $confirmationParams = array('token' => $this->user->getConfirmationToken(), 'target' => $encryptedEmail);
 
         $event = new UserEvent($this->user, $request);
         $this->eventDispatcher->dispatch(FOSUserEvents::EMAIL_UPDATE_INITIALIZE, $event);
@@ -128,6 +138,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
      * Fetch email value from hashed part of confirmation link.
      *
      * @param string $hashedEmail
+     *
      * @return string Encrypted email
      */
     public function fetchEncryptedEmailFromConfirmationLink($hashedEmail)
@@ -148,6 +159,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
      * Set user class instance.
      *
      * @param User $user
+     *
      * @return $this
      */
     public function setUser(User $user)
@@ -162,6 +174,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
      * validated.
      *
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail($email)
@@ -178,6 +191,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
      * contain path to confirmation action.
      *
      * @param string $confirmationRoute
+     *
      * @return $this
      */
     public function setConfirmationRoute($confirmationRoute)
@@ -196,7 +210,6 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     {
         // Generate new token if it's not set
         if (!$this->user->getConfirmationToken()) {
-
             $this->user->setConfirmationToken(
                 $this->tokenGenerator->generateToken()
             );

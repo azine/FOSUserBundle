@@ -319,7 +319,7 @@ final class FOSUserEvents
      */
     const USER_DEMOTED = 'fos_user.user.demoted';
 
-  /**
+    /**
      * The EMAIL_UPDATE_INITIALIZE event occurs when the email update process is initialized.
      *
      * This event allows you to access the user and to add some behaviour after email update is initialized..

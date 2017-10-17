@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Doctrine;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -8,8 +17,7 @@ use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class EmailUpdateListener
- * @package FOS\UserBundle\Doctrine
+ * Class EmailUpdateListener.
  */
 class EmailUpdateListener
 {
@@ -24,10 +32,10 @@ class EmailUpdateListener
     private $requestStack;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EmailUpdateConfirmation $emailUpdateConfirmation
-     * @param RequestStack $requestStack
+     * @param RequestStack            $requestStack
      */
     public function __construct(EmailUpdateConfirmation $emailUpdateConfirmation, RequestStack $requestStack)
     {
@@ -36,7 +44,7 @@ class EmailUpdateListener
     }
 
     /**
-     * Pre update listener based on doctrine common
+     * Pre update listener based on doctrine common.
      *
      * @param PreUpdateEventArgs $args
      */
@@ -45,11 +53,9 @@ class EmailUpdateListener
         $object = $args->getObject();
 
         if ($object instanceof UserInterface && $args instanceof PreUpdateEventArgs) {
-
             $user = $object;
 
-            if($user->getConfirmationToken() != $this->emailUpdateConfirmation->getEmailConfirmedToken() && isset($args->getEntityChangeSet()['email'])){
-
+            if ($user->getConfirmationToken() != $this->emailUpdateConfirmation->getEmailConfirmedToken() && isset($args->getEntityChangeSet()['email'])) {
                 $oldEmail = $args->getEntityChangeSet()['email'][0];
                 $newEmail = $args->getEntityChangeSet()['email'][1];
 
@@ -66,8 +72,7 @@ class EmailUpdateListener
                 );
             }
 
-            if($user->getConfirmationToken() == $this->emailUpdateConfirmation->getEmailConfirmedToken()){
-
+            if ($user->getConfirmationToken() == $this->emailUpdateConfirmation->getEmailConfirmedToken()) {
                 $user->setConfirmationToken(null);
             }
         }

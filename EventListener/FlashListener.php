@@ -31,7 +31,7 @@ class FlashListener implements EventSubscriberInterface
         FOSUserEvents::REGISTRATION_COMPLETED => 'registration.flash.user_created',
         FOSUserEvents::RESETTING_RESET_COMPLETED => 'resetting.flash.success',
         FOSUserEvents::EMAIL_UPDATE_SUCCESS => 'email_update.flash.success',
-        FOSUserEvents::EMAIL_UPDATE_INITIALIZE => 'email_update.flash.info'
+        FOSUserEvents::EMAIL_UPDATE_INITIALIZE => 'email_update.flash.info',
     );
 
     /**
@@ -100,7 +100,7 @@ class FlashListener implements EventSubscriberInterface
         $this->session->getFlashBag()->add('info', $this->trans(self::$successMessages[$eventName]));
     }
 
-  /**
+    /**
      * @param string$message
      * @param array $params
      *

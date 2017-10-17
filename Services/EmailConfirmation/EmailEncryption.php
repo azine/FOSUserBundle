@@ -1,21 +1,28 @@
 <?php
 
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FOS\UserBundle\Services\EmailConfirmation;
 
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailEncryptionInterface;
 
 /**
- * Class EmailEncryption
+ * Class EmailEncryption.
  *
  * Use this class for encryption/decryption of email value based on specified
  * token.
- *
- * @package FOS\UserBundle\Services\EmailConfirmation
  */
 class EmailEncryption implements EmailEncryptionInterface
 {
     /**
-     * @var string $encryptionMode
+     * @var string
      */
     private $encryptionMode;
 
@@ -31,11 +38,12 @@ class EmailEncryption implements EmailEncryptionInterface
 
     /**
      * EmailEncryption cypher method (see http://php.net/manual/function.openssl-get-cipher-methods.php ).
+     *
      * @param string $mode
      */
     public function __construct($mode = null)
     {
-        if(!$mode) {
+        if (!$mode) {
             $mode = openssl_get_cipher_methods(false)[0];
         }
         $this->encryptionMode = $mode;
@@ -58,7 +66,7 @@ class EmailEncryption implements EmailEncryptionInterface
             $iv
         );
 
-        $encryptedEmail = base64_encode($iv . $encryptedEmail);
+        $encryptedEmail = base64_encode($iv.$encryptedEmail);
 
         return $encryptedEmail;
     }
@@ -68,7 +76,7 @@ class EmailEncryption implements EmailEncryptionInterface
      *
      * @param string $encryptedEmail
      *
-     * @return string Decrypted email.
+     * @return string Decrypted email
      */
     public function decryptEmailValue($encryptedEmail)
     {
@@ -91,11 +99,11 @@ class EmailEncryption implements EmailEncryptionInterface
 
         // Trim decrypted email from nul byte before return
         $email = rtrim($decryptedEmail, "\0");
-        
+
         if (!preg_match('/^.+\@\S+\.\S+$/', $email)) {
             throw new \InvalidArgumentException('Wrong email format was provided for decryptEmailValue function');
         }
-        
+
         return $email;
     }
 
@@ -104,6 +112,7 @@ class EmailEncryption implements EmailEncryptionInterface
      * User confirmation token size should be either 16, 24 or 32 byte.
      *
      * @param string $userConfirmationToken
+     *
      * @return $this
      */
     public function setUserConfirmationToken($userConfirmationToken)
@@ -123,6 +132,7 @@ class EmailEncryption implements EmailEncryptionInterface
      * Set email value to be encrypted.
      *
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail($email)
@@ -130,7 +140,7 @@ class EmailEncryption implements EmailEncryptionInterface
         if (!is_string($email)) {
             throw new \InvalidArgumentException(
                 'Email to be encrypted should a string. '
-                . gettype($email) . ' given.'
+                .gettype($email).' given.'
             );
         }
 
