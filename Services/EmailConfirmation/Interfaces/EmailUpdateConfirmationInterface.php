@@ -11,7 +11,7 @@
 
 namespace FOS\UserBundle\Services\EmailConfirmation\Interfaces;
 
-use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Interface EmailUpdateConfirmationInterface.
@@ -26,11 +26,11 @@ interface EmailUpdateConfirmationInterface
     public function fetchEncryptedEmailFromConfirmationLink($hashedEmail);
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      *
      * @return $this
      */
-    public function setUser(User $user);
+    public function setUser(UserInterface $user);
 
     /**
      * @param string $email

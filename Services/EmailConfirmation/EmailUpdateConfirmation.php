@@ -14,8 +14,7 @@ namespace FOS\UserBundle\Services\EmailConfirmation;
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Mailer\MailerInterface;
-use FOS\UserBundle\Mailer\TwigSwiftMailer;
-use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailEncryptionInterface;
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailUpdateConfirmationInterface;
 use FOS\UserBundle\Util\TokenGenerator;
@@ -51,7 +50,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     private $emailEncryption;
 
     /**
-     * @var User
+     * @var UserInterface
      */
     private $user;
 
@@ -158,11 +157,11 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     /**
      * Set user class instance.
      *
-     * @param User $user
+     * @param UserInterface $user
      *
      * @return $this
      */
-    public function setUser(User $user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
 
