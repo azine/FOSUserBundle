@@ -19,6 +19,8 @@ use FOS\UserBundle\Util\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,8 +42,17 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
     private $user;
     private $cypher_method = 'AES-128-CBC';
 
+    /** @var ValidatorInterface */
+    private $emailValidator;
+    /** @var ConstraintViolationList */
+    private $constraintViolationList;
+
     protected function setUp()
     {
+        $this->emailValidator =  $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
+        $this->constraintViolationList = new ConstraintViolationList(array());
+        $this->emailValidator->expects($this->once())->method("validate")->will($this->returnValue($this->constraintViolationList));
+
         $this->provider = $this->getMockBuilder('Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface')->getMock();
         $this->user = $this->getMockBuilder('FOS\UserBundle\Model\User')
                 ->disableOriginalConstructor()
@@ -52,7 +63,7 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 
         $this->tokenGenerator = $this->getMockBuilder('FOS\UserBundle\Util\TokenGenerator')->disableOriginalConstructor()->getMock();
         $this->mailer = $this->getMockBuilder('FOS\UserBundle\Mailer\TwigSwiftMailer')->disableOriginalConstructor()->getMock();
-        $this->emailEncryption = new EmailEncryption($this->cypher_method);
+        $this->emailEncryption = new EmailEncryption($this->emailValidator, $this->cypher_method);
         $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
 
         $this->emailUpdateConfirmation = new EmailUpdateConfirmation($this->router, $this->tokenGenerator, $this->mailer, $this->emailEncryption, $this->eventDispatcher);
@@ -64,7 +75,7 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchEncryptedEmailFromConfirmationLinkMethod()
     {
-        $emailEncryption = new EmailEncryption($this->cypher_method);
+        $emailEncryption = new EmailEncryption($this->emailValidator, $this->cypher_method);
         $emailEncryption->setEmail('foo@example.com');
         $emailEncryption->setUserConfirmationToken('test_token');
 

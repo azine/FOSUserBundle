@@ -14,6 +14,7 @@
         </service>
 
         <service id="fos_user.email_encryption" class="FOS\UserBundle\Services\EmailConfirmation\EmailEncryption">
+            <argument type="service" id="validator"/>
             <argument>%fos_user.email_update_confirmation.cypher_method%</argument>
         </service>
 
@@ -25,8 +26,6 @@
             <argument type="service" id="event_dispatcher" />
         </service>
 
-        <service id="fos_user.email_encryption" class="FOS\UserBundle\Services\EmailConfirmation\EmailEncryption">
-        </service>
     </services>
 
 </container>

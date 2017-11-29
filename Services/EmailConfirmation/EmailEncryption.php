@@ -12,6 +12,9 @@
 namespace FOS\UserBundle\Services\EmailConfirmation;
 
 use FOS\UserBundle\Services\EmailConfirmation\Interfaces\EmailEncryptionInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class EmailEncryption.
@@ -37,12 +40,19 @@ class EmailEncryption implements EmailEncryptionInterface
     private $email;
 
     /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
      * EmailEncryption cypher method (see http://php.net/manual/function.openssl-get-cipher-methods.php ).
      *
+     * @param ValidatorInterface $validator
      * @param string $mode
      */
-    public function __construct($mode = null)
+    public function __construct(ValidatorInterface $validator, $mode = null)
     {
+        $this->validator = $validator;
         if (!$mode) {
             $mode = openssl_get_cipher_methods(false)[0];
         }
@@ -100,7 +110,9 @@ class EmailEncryption implements EmailEncryptionInterface
         // Trim decrypted email from nul byte before return
         $email = rtrim($decryptedEmail, "\0");
 
-        if (!preg_match('/^.+\@\S+\.\S+$/', $email)) {
+        /** @var ConstraintViolationList $violationList */
+        $violationList = $this->validator->validate($email, new Email());
+        if ($violationList->count() > 0) {
             throw new \InvalidArgumentException('Wrong email format was provided for decryptEmailValue function');
         }
 
