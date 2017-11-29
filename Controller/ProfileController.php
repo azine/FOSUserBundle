@@ -129,8 +129,8 @@ class ProfileController extends Controller
             throw $this->createNotFoundException($translator->trans('email_update.error.message', array(), 'FOSUserBundle'));
         }
 
-        // Show invalid token message and redirect if users id does not match
-        if ($user->getId() !== $this->getUser()->getId()) {
+        // Show invalid token message if the user id found via token does not match the current users id (e.g. anon. or other user)
+        if (!($this->getUser() instanceof UserInterface) || ($user->getId() !== $this->getUser()->getId())) {
             /** @var Translator $translator */
             $translator = $this->get('translator');
             throw new AccessDeniedException($translator->trans('email_update.error.message', array(), 'FOSUserBundle'));

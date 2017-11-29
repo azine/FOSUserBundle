@@ -44,6 +44,15 @@ To enable it, update your configuration as follows:
             email_update_confirmation:
                 enabled: true
 
+When clicking the confirmation-link, the user has to be logged in. For the best
+user experience it is recommended to protect the url of the route `fos_user_update_email_confirm`
+in the security configuration.
+
+.. code-block:: yaml
+security:
+    access_control:
+        - { path: "/{YOUR-PREFIX}/profile/confirm-email-update/{token}", roles: IS_AUTHENTICATED_REMEMBERED }
+
 
 Password Reset
 --------------
