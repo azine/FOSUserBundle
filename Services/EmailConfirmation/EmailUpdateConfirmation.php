@@ -32,7 +32,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     const EMAIL_CONFIRMED = 'email_confirmed';
 
     /**
-     * @var TwigSwiftMailer
+     * @var MailerInterface
      */
     private $mailer;
     /**
@@ -99,7 +99,7 @@ class EmailUpdateConfirmation implements EmailUpdateConfirmationInterface
     /**
      * Get $mailer.
      *
-     * @return TwigSwiftMailer $mailer
+     * @return MailerInterface
      */
     public function getMailer()
     {
