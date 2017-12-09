@@ -24,13 +24,13 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->emailValidator =  $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
+        $this->emailValidator = $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
         $this->constraintViolationList = new ConstraintViolationList(array($this->getMockBuilder('Symfony\Component\Validator\ConstraintViolation')->disableOriginalConstructor()->getMock()));
     }
 
     public function testEncryptDecryptEmail()
     {
-        $this->emailValidator->expects($this->once())->method("validate")->will($this->returnValue($this->constraintViolationList));
+        $this->emailValidator->expects($this->once())->method('validate')->will($this->returnValue($this->constraintViolationList));
         $this->constraintViolationList->remove(0);
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setEmail('foo@example.com');
@@ -45,7 +45,7 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptFromWrongEmailFormat()
     {
-        $this->emailValidator->expects($this->once())->method("validate")->will($this->returnValue($this->constraintViolationList));
+        $this->emailValidator->expects($this->once())->method('validate')->will($this->returnValue($this->constraintViolationList));
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setEmail('fooexample.com');
         $emailEncryption->setUserConfirmationToken('test_token');

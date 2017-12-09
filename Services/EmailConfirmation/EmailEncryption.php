@@ -48,7 +48,7 @@ class EmailEncryption implements EmailEncryptionInterface
      * EmailEncryption cypher method (see http://php.net/manual/function.openssl-get-cipher-methods.php ).
      *
      * @param ValidatorInterface $validator
-     * @param string $mode
+     * @param string             $mode
      */
     public function __construct(ValidatorInterface $validator, $mode = null)
     {

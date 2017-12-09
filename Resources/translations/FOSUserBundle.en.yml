@@ -36,7 +36,7 @@ email_update:
         info: 'Please check the inbox of your new email address and click the link in the confirmation email.'
         success: 'E-mail was successfully updated'
     error:
-        message: : 'Invalid confirmation link. Can not update the email address.'
+        message: 'Invalid confirmation link. Can not update the email address.'
     email:
         subject: 'Confirm the activation of the new email address.'
         message: |
