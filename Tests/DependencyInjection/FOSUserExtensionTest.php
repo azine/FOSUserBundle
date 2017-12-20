@@ -21,6 +21,11 @@ class FOSUserExtensionTest extends TestCase
     /** @var ContainerBuilder */
     protected $configuration;
 
+    protected function tearDown()
+    {
+        unset($this->configuration);
+    }
+
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
@@ -498,10 +503,5 @@ EOF;
     private function assertNotHasDefinition($id)
     {
         $this->assertFalse(($this->configuration->hasDefinition($id) ?: $this->configuration->hasAlias($id)));
-    }
-
-    protected function tearDown()
-    {
-        unset($this->configuration);
     }
 }
