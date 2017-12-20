@@ -17,6 +17,7 @@ use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Services\EmailConfirmation\EmailUpdateConfirmation;
+use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,19 +50,25 @@ class ConfirmEmailUpdateController extends AbstractController
      * @var TranslatorInterface
      */
     private $translator;
+    /**
+     * @var CanonicalFieldsUpdater
+     */
+    private $canonicalFieldsUpdater;
 
     /**
      * @param EventDispatcherInterface $eventDispatcher
      * @param UserManagerInterface     $userManager
      * @param EmailUpdateConfirmation  $emailUpdateConfirmation
      * @param TranslatorInterface      $translator
+     * @param CanonicalFieldsUpdater   $canonicalFieldsUpdater
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, UserManagerInterface $userManager, EmailUpdateConfirmation $emailUpdateConfirmation, TranslatorInterface $translator)
+    public function __construct(EventDispatcherInterface $eventDispatcher, UserManagerInterface $userManager, EmailUpdateConfirmation $emailUpdateConfirmation, TranslatorInterface $translator, CanonicalFieldsUpdater $canonicalFieldsUpdater)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userManager = $userManager;
         $this->emailUpdateConfirmation = $emailUpdateConfirmation;
         $this->translator = $translator;
+        $this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
     }
 
     /**
@@ -95,6 +102,7 @@ class ConfirmEmailUpdateController extends AbstractController
         if ($newEmail) {
             $user->setConfirmationToken($this->emailUpdateConfirmation->getEmailConfirmedToken());
             $user->setEmail($newEmail);
+            $user->setEmail($this->canonicalFieldsUpdater->canonicalizeEmail($newEmail));
         }
 
         $this->userManager->updateUser($user);
