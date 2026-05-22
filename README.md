@@ -52,3 +52,24 @@ When reporting a bug, it may be a good idea to reproduce it in a basic project
 built using the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
 to allow developers of the bundle to reproduce the issue by simply cloning it
 and following some steps.
+
+## Modern platform targets
+
+This branch targets modern PHP/Symfony platforms:
+
+- PHP **8.5+**
+- Symfony components **7.4+**
+- Twig **3.14+**
+- PHPUnit **11.5+**
+
+## Running tests locally
+
+```bash
+composer validate --strict
+composer update --no-interaction --prefer-dist
+vendor/bin/phpunit -c phpunit.xml.dist
+```
+
+## CI
+
+Automated tests now run on every push and pull request through GitHub Actions (`.github/workflows/ci.yml`).

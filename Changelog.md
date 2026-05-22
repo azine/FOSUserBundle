@@ -229,3 +229,9 @@ as possible.
 ### 1.0.0  (2011-08-01)
 
 * Initial release
+
+## Unreleased
+
+- Modernized dependency and toolchain constraints for PHP 8.5 / Symfony 7.4.
+- Migrated CI from legacy Travis to GitHub Actions for push/PR validation.
+- Updated PHPUnit configuration to the PHPUnit 11 schema.
