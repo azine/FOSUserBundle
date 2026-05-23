@@ -16,7 +16,7 @@ use Swift_Events_EventDispatcher;
 use Swift_Mailer;
 use Swift_Transport_NullTransport;
 
-class MailerTest extends \PHPUnit_Framework_TestCase
+class MailerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider goodEmailProvider
@@ -31,10 +31,10 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendConfirmationEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendConfirmationEmailMessage($this->getUser($emailAddress));
     }
@@ -52,10 +52,10 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendResettingEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendResettingEmailMessage($this->getUser($emailAddress));
     }

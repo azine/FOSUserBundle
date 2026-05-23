@@ -13,7 +13,7 @@ namespace FOS\UserBundle\Tests\Security;
 
 use FOS\UserBundle\Security\UserProvider;
 
-class UserProviderTest extends \PHPUnit_Framework_TestCase
+class UserProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -43,10 +43,10 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testLoadUserByInvalidUsername()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UsernameNotFoundException::class);
         $this->userManager->expects($this->once())
             ->method('findUserByUsername')
             ->with('foobar')
@@ -79,10 +79,10 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testRefreshDeleted()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UsernameNotFoundException::class);
         $user = $this->getMockForAbstractClass('FOS\UserBundle\Model\User');
         $this->userManager->expects($this->once())
             ->method('findUserBy')
@@ -96,10 +96,10 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UnsupportedUserException
      */
     public function testRefreshInvalidUser()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UnsupportedUserException::class);
         $user = $this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock();
         $this->userManager->expects($this->any())
             ->method('getClass')
@@ -109,10 +109,10 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UnsupportedUserException
      */
     public function testRefreshInvalidUserClass()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UnsupportedUserException::class);
         $user = $this->getMockBuilder('FOS\UserBundle\Model\User')->getMock();
         $providedUser = $this->getMockBuilder('FOS\UserBundle\Tests\TestUser')->getMock();
 

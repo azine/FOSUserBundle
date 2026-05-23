@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CreateUserCommandTest extends \PHPUnit_Framework_TestCase
+class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
 {
     public function testExecute()
     {

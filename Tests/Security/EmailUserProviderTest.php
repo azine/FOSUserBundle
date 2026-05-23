@@ -13,7 +13,7 @@ namespace FOS\UserBundle\Tests\Security;
 
 use FOS\UserBundle\Security\EmailUserProvider;
 
-class EmailUserProviderTest extends \PHPUnit_Framework_TestCase
+class EmailUserProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -43,10 +43,10 @@ class EmailUserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testLoadUserByInvalidUsername()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UsernameNotFoundException::class);
         $this->userManager->expects($this->once())
             ->method('findUserByUsernameOrEmail')
             ->with('foobar')
@@ -79,10 +79,10 @@ class EmailUserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UnsupportedUserException
      */
     public function testRefreshInvalidUser()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UnsupportedUserException::class);
         $user = $this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock();
 
         $this->userProvider->refreshUser($user);

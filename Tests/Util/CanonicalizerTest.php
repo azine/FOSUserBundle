@@ -13,7 +13,7 @@ namespace FOS\UserBundle\Tests\Util;
 
 use FOS\UserBundle\Util\Canonicalizer;
 
-class CanonicalizerTest extends \PHPUnit_Framework_TestCase
+class CanonicalizerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider canonicalizeProvider

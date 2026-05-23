@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DemoteUserCommandTest extends \PHPUnit_Framework_TestCase
+class DemoteUserCommandTest extends \PHPUnit\Framework\TestCase
 {
     public function testExecute()
     {

@@ -15,7 +15,7 @@ use FOS\UserBundle\Mailer\TwigSwiftMailer;
 use Swift_Mailer;
 use Swift_Transport_NullTransport;
 
-class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
+class TwigSwiftMailerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider goodEmailProvider
@@ -30,10 +30,10 @@ class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendConfirmationEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getTwigSwiftMailer();
         $mailer->sendConfirmationEmailMessage($this->getUser($emailAddress));
     }
@@ -51,10 +51,10 @@ class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendResettingEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getTwigSwiftMailer();
         $mailer->sendResettingEmailMessage($this->getUser($emailAddress));
     }
