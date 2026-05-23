@@ -23,7 +23,7 @@ class CanonicalFieldsUpdaterTest extends \PHPUnit\Framework\TestCase
     private $usernameCanonicalizer;
     private $emailCanonicalizer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->usernameCanonicalizer = $this->getMockCanonicalizer();
         $this->emailCanonicalizer = $this->getMockCanonicalizer();

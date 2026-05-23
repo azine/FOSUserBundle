@@ -23,7 +23,7 @@ class FlashListenerTest extends \PHPUnit\Framework\TestCase
     /** @var FlashListener */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->event = new Event();
 

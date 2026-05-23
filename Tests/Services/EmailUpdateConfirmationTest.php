@@ -47,7 +47,7 @@ class EmailUpdateConfirmationTest extends \PHPUnit\Framework\TestCase
     /** @var ConstraintViolationList */
     private $constraintViolationList;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->emailValidator = $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
         $this->constraintViolationList = new ConstraintViolationList(array());

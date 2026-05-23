@@ -25,7 +25,7 @@ class UserProviderTest extends \PHPUnit\Framework\TestCase
      */
     private $userProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userManager = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
         $this->userProvider = new UserProvider($this->userManager);

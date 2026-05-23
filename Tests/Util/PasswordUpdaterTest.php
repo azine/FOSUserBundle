@@ -22,7 +22,7 @@ class PasswordUpdaterTest extends \PHPUnit\Framework\TestCase
     private $updater;
     private $encoderFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoderFactory = $this->getMockBuilder('Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface')->getMock();
 

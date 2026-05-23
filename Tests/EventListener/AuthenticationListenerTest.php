@@ -29,7 +29,7 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var AuthenticationListener */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         $user = $this->getMockBuilder('FOS\UserBundle\Model\UserInterface')->getMock();
 
