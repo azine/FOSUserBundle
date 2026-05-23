@@ -11,19 +11,50 @@
 
 namespace FOS\UserBundle\Model;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface UserInterface extends AdvancedUserInterface, \Serializable
+interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     const ROLE_DEFAULT = 'ROLE_USER';
 
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
+    
     /**
+     * Returns the identifier for this user (e.g. username or email).
+     */
+    public function getUserIdentifier(): string;
+
+    /**
+     * @return string|null
+     */
+    public function getSalt(): ?string;
+
+    /**
+     * @return bool
+     */
+    public function isAccountNonExpired();
+
+    /**
+     * @return bool
+     */
+    public function isAccountNonLocked();
+
+    /**
+     * @return bool
+     */
+    public function isCredentialsNonExpired();
+
+    /**
+     * @return bool
+     */
+    public function isEnabled();
+/**
      * Returns the user unique id.
      *
      * @return mixed

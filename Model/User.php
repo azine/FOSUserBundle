@@ -175,7 +175,7 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
@@ -186,6 +186,14 @@ abstract class User implements UserInterface, GroupableInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
     }
 
     /**
@@ -207,7 +215,7 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
@@ -231,7 +239,7 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -265,7 +273,7 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = $this->roles;
 
