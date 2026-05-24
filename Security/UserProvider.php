@@ -38,7 +38,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): SecurityUserInterface
     {
         $user = $this->findUser($username);
 
@@ -52,7 +52,15 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(SecurityUserInterface $user)
+    public function loadUserByIdentifier(string $identifier): SecurityUserInterface
+    {
+        return $this->loadUserByUsername($identifier);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function refreshUser(SecurityUserInterface $user): SecurityUserInterface
     {
         if (!$user instanceof UserInterface) {
             throw new UnsupportedUserException(sprintf('Expected an instance of FOS\UserBundle\Model\UserInterface, but got "%s".', get_class($user)));
@@ -72,7 +80,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
+    public function supportsClass(string $class): bool
     {
         $userClass = $this->userManager->getClass();
 
@@ -88,7 +96,7 @@ class UserProvider implements UserProviderInterface
      *
      * @return UserInterface|null
      */
-    protected function findUser($username)
+    protected function findUser(string $username): ?UserInterface
     {
         return $this->userManager->findUserByUsername($username);
     }
