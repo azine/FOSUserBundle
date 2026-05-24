@@ -20,3 +20,10 @@ $ phpunit
 EOT;
     exit(1);
 }
+
+if (!class_exists('Twig_Environment') && class_exists('Twig\\Environment')) {
+    class_alias('Twig\\Environment', 'Twig_Environment');
+}
+if (!class_exists('Twig_Loader_Array') && class_exists('Twig\\Loader\\ArrayLoader')) {
+    class_alias('Twig\\Loader\\ArrayLoader', 'Twig_Loader_Array');
+}

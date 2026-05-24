@@ -41,12 +41,9 @@ class DemoteUserCommandTest extends \PHPUnit\Framework\TestCase
             ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->once())
+        $helper->expects($this->exactly(2))
             ->method('ask')
-            ->will($this->returnValue('user'));
-        $helper->expects($this->at(1))
-            ->method('ask')
-            ->will($this->returnValue('role'));
+            ->willReturnOnConsecutiveCalls('user', 'role');
 
         $application->getHelperSet()->set($helper, 'question');
 

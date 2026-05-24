@@ -18,6 +18,13 @@ use Swift_Transport_NullTransport;
 
 class MailerTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        if (!interface_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\EngineInterface')) {
+            $this->markTestSkipped('FrameworkBundle templating EngineInterface is unavailable.');
+        }
+    }
+
     /**
      * @dataProvider goodEmailProvider
      */
@@ -84,9 +91,11 @@ class MailerTest extends \PHPUnit\Framework\TestCase
     private function getTemplating()
     {
         $templating = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->addMethods(array('render'))
+            ->getMock();
+
+        $templating->method('render')
+            ->willReturn("subject\nbody");
 
         return $templating;
     }

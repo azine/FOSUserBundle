@@ -42,17 +42,11 @@ class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
             ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->once())
+        $helper->expects($this->exactly(3))
             ->method('ask')
-            ->will($this->returnValue('user'));
+            ->willReturnOnConsecutiveCalls('user', 'email', 'pass');
 
-        $helper->expects($this->at(1))
-            ->method('ask')
-            ->will($this->returnValue('email'));
-
-        $helper->expects($this->at(2))
-            ->method('ask')
-            ->will($this->returnValue('pass'));
+        
 
         $application->getHelperSet()->set($helper, 'question');
 
