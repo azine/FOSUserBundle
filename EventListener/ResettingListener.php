@@ -45,7 +45,7 @@ class ResettingListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             FOSUserEvents::RESETTING_RESET_INITIALIZE => 'onResettingResetInitialize',

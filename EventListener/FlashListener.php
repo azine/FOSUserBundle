@@ -58,7 +58,7 @@ class FlashListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             FOSUserEvents::CHANGE_PASSWORD_COMPLETED => 'addSuccessFlash',
