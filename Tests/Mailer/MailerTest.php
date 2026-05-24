@@ -16,8 +16,15 @@ use Swift_Events_EventDispatcher;
 use Swift_Mailer;
 use Swift_Transport_NullTransport;
 
-class MailerTest extends \PHPUnit_Framework_TestCase
+class MailerTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        if (!interface_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\EngineInterface')) {
+            $this->markTestSkipped('FrameworkBundle templating EngineInterface is unavailable.');
+        }
+    }
+
     /**
      * @dataProvider goodEmailProvider
      */
@@ -31,10 +38,10 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendConfirmationEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendConfirmationEmailMessage($this->getUser($emailAddress));
     }
@@ -52,10 +59,10 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendResettingEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendResettingEmailMessage($this->getUser($emailAddress));
     }
@@ -84,9 +91,11 @@ class MailerTest extends \PHPUnit_Framework_TestCase
     private function getTemplating()
     {
         $templating = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->addMethods(array('render'))
+            ->getMock();
+
+        $templating->method('render')
+            ->willReturn("subject\nbody");
 
         return $templating;
     }
@@ -101,34 +110,38 @@ class MailerTest extends \PHPUnit_Framework_TestCase
         return $user;
     }
 
-    private function getEmailAddressValueObject($emailAddressAsString)
+    private static function getEmailAddressValueObject($emailAddressAsString)
     {
-        $emailAddress = $this->getMockBuilder('EmailAddress')
-           ->setMethods(array('__toString'))
-           ->getMock();
+        return new class($emailAddressAsString) {
+            private $value;
 
-        $emailAddress->method('__toString')
-            ->willReturn($emailAddressAsString)
-        ;
+            public function __construct($value)
+            {
+                $this->value = $value;
+            }
 
-        return $emailAddress;
+            public function __toString()
+            {
+                return $this->value;
+            }
+        };
     }
 
-    public function goodEmailProvider()
+    public static function goodEmailProvider()
     {
         return array(
             array('foo@example.com'),
             array('foo@example.co.uk'),
-            array($this->getEmailAddressValueObject('foo@example.com')),
-            array($this->getEmailAddressValueObject('foo@example.co.uk')),
+            array(self::getEmailAddressValueObject('foo@example.com')),
+            array(self::getEmailAddressValueObject('foo@example.co.uk')),
         );
     }
 
-    public function badEmailProvider()
+    public static function badEmailProvider()
     {
         return array(
             array('foo'),
-            array($this->getEmailAddressValueObject('foo')),
+            array(self::getEmailAddressValueObject('foo')),
         );
     }
 }

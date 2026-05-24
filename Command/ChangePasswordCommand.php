@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * ChangePasswordCommand.
  */
-class ChangePasswordCommand extends ContainerAwareCommand
+class ChangePasswordCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -52,7 +52,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
@@ -61,6 +61,8 @@ EOT
         $manipulator->changePassword($username, $password);
 
         $output->writeln(sprintf('Changed password for user <comment>%s</comment>', $username));
+
+        return 0;
     }
 
     /**

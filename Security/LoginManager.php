@@ -102,6 +102,6 @@ class LoginManager implements LoginManagerInterface
      */
     protected function createToken($firewall, UserInterface $user)
     {
-        return new UsernamePasswordToken($user, null, $firewall, $user->getRoles());
+        return new UsernamePasswordToken($user, $firewall, $user->getRoles());
     }
 }

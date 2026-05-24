@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ActivateUserCommandTest extends \PHPUnit_Framework_TestCase
+class ActivateUserCommandTest extends \PHPUnit\Framework\TestCase
 {
     public function testExecute()
     {
@@ -29,7 +29,7 @@ class ActivateUserCommandTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/User "user" has been activated/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/User "user" has been activated/', $commandTester->getDisplay());
     }
 
     public function testExecuteInteractiveWithQuestionHelper()
@@ -37,10 +37,10 @@ class ActivateUserCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $helper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-            ->setMethods(array('ask'))
+            ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->at(0))
+        $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue('user'));
 
@@ -53,7 +53,7 @@ class ActivateUserCommandTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/User "user" has been activated/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/User "user" has been activated/', $commandTester->getDisplay());
     }
 
     /**

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
+class EmailUpdateConfirmationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExpressionFunctionProviderInterface */
     private $provider;
@@ -47,7 +47,7 @@ class EmailUpdateConfirmationTest extends \PHPUnit_Framework_TestCase
     /** @var ConstraintViolationList */
     private $constraintViolationList;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->emailValidator = $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
         $this->constraintViolationList = new ConstraintViolationList(array());

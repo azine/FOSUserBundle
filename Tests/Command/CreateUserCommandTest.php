@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CreateUserCommandTest extends \PHPUnit_Framework_TestCase
+class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
 {
     public function testExecute()
     {
@@ -31,7 +31,7 @@ class CreateUserCommandTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Created user user/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Created user user/', $commandTester->getDisplay());
     }
 
     public function testExecuteInteractiveWithQuestionHelper()
@@ -39,20 +39,14 @@ class CreateUserCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $helper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-            ->setMethods(array('ask'))
+            ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->at(0))
+        $helper->expects($this->exactly(3))
             ->method('ask')
-            ->will($this->returnValue('user'));
+            ->willReturnOnConsecutiveCalls('user', 'email', 'pass');
 
-        $helper->expects($this->at(1))
-            ->method('ask')
-            ->will($this->returnValue('email'));
-
-        $helper->expects($this->at(2))
-            ->method('ask')
-            ->will($this->returnValue('pass'));
+        
 
         $application->getHelperSet()->set($helper, 'question');
 
@@ -65,7 +59,7 @@ class CreateUserCommandTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Created user user/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Created user user/', $commandTester->getDisplay());
     }
 
     /**

@@ -14,7 +14,7 @@ namespace FOS\UserBundle\Tests\Doctrine;
 use FOS\UserBundle\Doctrine\UserManager;
 use FOS\UserBundle\Model\User;
 
-class UserManagerTest extends \PHPUnit_Framework_TestCase
+class UserManagerTest extends \PHPUnit\Framework\TestCase
 {
     const USER_CLASS = 'FOS\UserBundle\Tests\Doctrine\DummyUser';
 
@@ -25,7 +25,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $repository;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!interface_exists('Doctrine\Common\Persistence\ObjectManager')) {
             $this->markTestSkipped('Doctrine Common has to be installed for this test to run.');

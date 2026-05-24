@@ -14,7 +14,7 @@ namespace FOS\UserBundle\Tests\Util;
 use FOS\UserBundle\Tests\TestUser;
 use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 
-class CanonicalFieldsUpdaterTest extends \PHPUnit_Framework_TestCase
+class CanonicalFieldsUpdaterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CanonicalFieldsUpdater
@@ -23,7 +23,7 @@ class CanonicalFieldsUpdaterTest extends \PHPUnit_Framework_TestCase
     private $usernameCanonicalizer;
     private $emailCanonicalizer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->usernameCanonicalizer = $this->getMockCanonicalizer();
         $this->emailCanonicalizer = $this->getMockCanonicalizer();

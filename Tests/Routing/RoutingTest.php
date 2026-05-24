@@ -15,7 +15,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\RouteCollection;
 
-class RoutingTest extends \PHPUnit_Framework_TestCase
+class RoutingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider loadRoutingProvider
@@ -26,6 +26,9 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadRouting($routeName, $path, array $methods)
     {
+        if (!class_exists(XmlFileLoader::class)) {
+            $this->markTestSkipped('XmlFileLoader is unavailable in this Symfony/Routing install.');
+        }
         $locator = new FileLocator();
         $loader = new XmlFileLoader($locator);
 
@@ -54,7 +57,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function loadRoutingProvider()
+    public static function loadRoutingProvider()
     {
         return array(
             array('fos_user_change_password', '/change-password', array('GET', 'POST')),

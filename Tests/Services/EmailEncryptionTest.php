@@ -15,14 +15,14 @@ use FOS\UserBundle\Services\EmailConfirmation\EmailEncryption;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
+class EmailEncryptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ValidatorInterface */
     private $emailValidator;
     /** @var ConstraintViolationList */
     private $constraintViolationList;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->emailValidator = $this->getMockBuilder('Symfony\Component\Validator\Validator\RecursiveValidator')->disableOriginalConstructor()->getMock();
         $this->constraintViolationList = new ConstraintViolationList(array($this->getMockBuilder('Symfony\Component\Validator\ConstraintViolation')->disableOriginalConstructor()->getMock()));
@@ -41,10 +41,10 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testDecryptFromWrongEmailFormat()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->emailValidator->expects($this->once())->method('validate')->will($this->returnValue($this->constraintViolationList));
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setEmail('fooexample.com');
@@ -55,28 +55,28 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testIntegerIsSetInsteadOfEmailString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setEmail(123);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testIntegerIsSetInsteadOfConfirmationTokenString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setUserConfirmationToken(123);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testNullIsSetInsteadOfConfirmationTokenString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->setUserConfirmationToken(null);
     }
@@ -93,10 +93,10 @@ class EmailEncryptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testGetConfirmationTokenIfUserConfirmationTokenIsNotSet()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $emailEncryption = new EmailEncryption($this->emailValidator);
         $emailEncryption->getConfirmationToken();
     }

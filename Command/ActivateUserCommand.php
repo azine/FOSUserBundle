@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Antoine Hérault <antoine.herault@gmail.com>
  */
-class ActivateUserCommand extends ContainerAwareCommand
+class ActivateUserCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -44,7 +44,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
 
@@ -52,6 +52,8 @@ EOT
         $manipulator->activate($username);
 
         $output->writeln(sprintf('User "%s" has been activated.', $username));
+
+        return 0;
     }
 
     /**

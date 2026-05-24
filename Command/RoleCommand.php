@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Lenar Lõhmus <lenar@city.ee>
  */
-abstract class RoleCommand extends ContainerAwareCommand
+abstract class RoleCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ abstract class RoleCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
         $role = $input->getArgument('role');
@@ -56,6 +56,8 @@ abstract class RoleCommand extends ContainerAwareCommand
 
         $manipulator = $this->getContainer()->get('fos_user.util.user_manipulator');
         $this->executeRoleCommand($manipulator, $output, $username, $super, $role);
+
+        return 0;
     }
 
     /**

@@ -13,7 +13,7 @@ namespace FOS\UserBundle\Tests\Model;
 
 use FOS\UserBundle\Model\UserManager;
 
-class UserManagerTest extends \PHPUnit_Framework_TestCase
+class UserManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UserManager
@@ -22,7 +22,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase
     private $passwordUpdater;
     private $fieldsUpdater;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->passwordUpdater = $this->getMockBuilder('FOS\UserBundle\Util\PasswordUpdaterInterface')->getMock();
         $this->fieldsUpdater = $this->getMockBuilder('FOS\UserBundle\Util\CanonicalFieldsUpdater')

@@ -15,7 +15,7 @@ use FOS\UserBundle\Mailer\TwigSwiftMailer;
 use Swift_Mailer;
 use Swift_Transport_NullTransport;
 
-class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
+class TwigSwiftMailerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider goodEmailProvider
@@ -30,10 +30,10 @@ class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendConfirmationEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getTwigSwiftMailer();
         $mailer->sendConfirmationEmailMessage($this->getUser($emailAddress));
     }
@@ -51,10 +51,10 @@ class TwigSwiftMailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendResettingEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(\Swift_RfcComplianceException::class);
         $mailer = $this->getTwigSwiftMailer();
         $mailer->sendResettingEmailMessage($this->getUser($emailAddress));
     }
@@ -103,34 +103,38 @@ TWIG
         return $user;
     }
 
-    private function getEmailAddressValueObject($emailAddressAsString)
+    private static function getEmailAddressValueObject($emailAddressAsString)
     {
-        $emailAddress = $this->getMockBuilder('EmailAddress')
-           ->setMethods(array('__toString'))
-           ->getMock();
+        return new class($emailAddressAsString) {
+            private $value;
 
-        $emailAddress->method('__toString')
-            ->willReturn($emailAddressAsString)
-        ;
+            public function __construct($value)
+            {
+                $this->value = $value;
+            }
 
-        return $emailAddress;
+            public function __toString()
+            {
+                return $this->value;
+            }
+        };
     }
 
-    public function goodEmailProvider()
+    public static function goodEmailProvider()
     {
         return array(
             array('foo@example.com'),
             array('foo@example.co.uk'),
-            array($this->getEmailAddressValueObject('foo@example.com')),
-            array($this->getEmailAddressValueObject('foo@example.co.uk')),
+            array(self::getEmailAddressValueObject('foo@example.com')),
+            array(self::getEmailAddressValueObject('foo@example.co.uk')),
         );
     }
 
-    public function badEmailProvider()
+    public static function badEmailProvider()
     {
         return array(
             array('foo'),
-            array($this->getEmailAddressValueObject('foo')),
+            array(self::getEmailAddressValueObject('foo')),
         );
     }
 }

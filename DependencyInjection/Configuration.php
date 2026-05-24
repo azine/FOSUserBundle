@@ -29,10 +29,10 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fos_user');
+        $treeBuilder = new TreeBuilder('fos_user');
+        $rootNode = $treeBuilder->getRootNode();
 
         $supportedDrivers = array('orm', 'mongodb', 'couchdb', 'custom');
 

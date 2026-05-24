@@ -16,7 +16,7 @@ use FOS\UserBundle\EventListener\AuthenticationListener;
 use FOS\UserBundle\FOSUserEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class AuthenticationListenerTest extends \PHPUnit_Framework_TestCase
+class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
 {
     const FIREWALL_NAME = 'foo';
 
@@ -29,7 +29,7 @@ class AuthenticationListenerTest extends \PHPUnit_Framework_TestCase
     /** @var AuthenticationListener */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         $user = $this->getMockBuilder('FOS\UserBundle\Model\UserInterface')->getMock();
 

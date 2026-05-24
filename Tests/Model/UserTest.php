@@ -13,7 +13,7 @@ namespace FOS\UserBundle\Tests\Model;
 
 use FOS\UserBundle\Model\User;
 
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
     public function testUsername()
     {
