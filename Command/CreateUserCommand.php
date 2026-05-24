@@ -66,7 +66,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
         $email = $input->getArgument('email');
@@ -78,6 +78,8 @@ EOT
         $manipulator->create($username, $password, $email, !$inactive, $superadmin);
 
         $output->writeln(sprintf('Created user <comment>%s</comment>', $username));
+
+        return 0;
     }
 
     /**

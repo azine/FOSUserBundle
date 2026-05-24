@@ -44,7 +44,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
 
@@ -52,6 +52,8 @@ EOT
         $manipulator->activate($username);
 
         $output->writeln(sprintf('User "%s" has been activated.', $username));
+
+        return 0;
     }
 
     /**
