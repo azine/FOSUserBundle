@@ -30,7 +30,7 @@ class DemoteUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Role "role" has been removed from user "user"/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Role "role" has been removed from user "user"/', $commandTester->getDisplay());
     }
 
     public function testExecuteInteractiveWithQuestionHelper()
@@ -41,7 +41,7 @@ class DemoteUserCommandTest extends \PHPUnit\Framework\TestCase
             ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->at(0))
+        $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue('user'));
         $helper->expects($this->at(1))
@@ -57,7 +57,7 @@ class DemoteUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Role "role" has been removed from user "user"/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Role "role" has been removed from user "user"/', $commandTester->getDisplay());
     }
 
     /**

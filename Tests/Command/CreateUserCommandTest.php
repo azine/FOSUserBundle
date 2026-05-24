@@ -31,7 +31,7 @@ class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Created user user/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Created user user/', $commandTester->getDisplay());
     }
 
     public function testExecuteInteractiveWithQuestionHelper()
@@ -42,7 +42,7 @@ class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
             ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->at(0))
+        $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue('user'));
 
@@ -65,7 +65,7 @@ class CreateUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/Created user user/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/Created user user/', $commandTester->getDisplay());
     }
 
     /**

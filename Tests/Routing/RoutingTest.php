@@ -26,6 +26,9 @@ class RoutingTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoadRouting($routeName, $path, array $methods)
     {
+        if (!class_exists(XmlFileLoader::class)) {
+            $this->markTestSkipped('XmlFileLoader is unavailable in this Symfony/Routing install.');
+        }
         $locator = new FileLocator();
         $loader = new XmlFileLoader($locator);
 

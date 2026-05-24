@@ -29,7 +29,7 @@ class DeactivateUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/User "user" has been deactivated/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/User "user" has been deactivated/', $commandTester->getDisplay());
     }
 
     public function testExecuteInteractiveWithQuestionHelper()
@@ -40,7 +40,7 @@ class DeactivateUserCommandTest extends \PHPUnit\Framework\TestCase
             ->onlyMethods(array('ask'))
             ->getMock();
 
-        $helper->expects($this->at(0))
+        $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue('user'));
 
@@ -53,7 +53,7 @@ class DeactivateUserCommandTest extends \PHPUnit\Framework\TestCase
         ));
 
         $this->assertSame(0, $exitCode, 'Returns 0 in case of success');
-        $this->assertRegExp('/User "user" has been deactivated/', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('/User "user" has been deactivated/', $commandTester->getDisplay());
     }
 
     /**

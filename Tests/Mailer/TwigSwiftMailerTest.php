@@ -105,15 +105,19 @@ TWIG
 
     private static function getEmailAddressValueObject($emailAddressAsString)
     {
-        $emailAddress = $this->getMockBuilder('EmailAddress')
-           ->onlyMethods(array('__toString'))
-           ->getMock();
+        return new class($emailAddressAsString) {
+            private $value;
 
-        $emailAddress->method('__toString')
-            ->willReturn($emailAddressAsString)
-        ;
+            public function __construct($value)
+            {
+                $this->value = $value;
+            }
 
-        return $emailAddress;
+            public function __toString()
+            {
+                return $this->value;
+            }
+        };
     }
 
     public static function goodEmailProvider()

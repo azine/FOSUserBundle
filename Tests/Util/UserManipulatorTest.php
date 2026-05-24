@@ -338,7 +338,7 @@ class UserManipulatorTest extends \PHPUnit\Framework\TestCase
 
         $eventDispatcherMock->expects($once ? $this->once() : $this->never())
             ->method('dispatch')
-            ->with($event);
+            ->with($this->isInstanceOf('FOS\UserBundle\Event\UserEvent'), $event);
 
         return $eventDispatcherMock;
     }

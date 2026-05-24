@@ -64,17 +64,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
             ->expects($this->once())
             ->method('getCurrentRequest')
             ->will($this->returnValue($request));
-
-        $rememberMe = null;
-        if (null !== $response) {
-            $rememberMe = $this->getMockBuilder('Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface')->getMock();
-            $rememberMe
-                ->expects($this->once())
-                ->method('loginSuccess')
-                ->with($request, $response, $this->isInstanceOf('Symfony\Component\Security\Core\Authentication\Token\TokenInterface'));
-        }
-
-        return new LoginManager($tokenStorage, $userChecker, $sessionStrategy, $requestStack, $rememberMe);
+        return new LoginManager($tokenStorage, $userChecker, $sessionStrategy, $requestStack, null);
     }
 
     /**
