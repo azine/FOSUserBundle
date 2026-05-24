@@ -30,7 +30,7 @@ class CanonicalizerTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function canonicalizeProvider()
+    public static function canonicalizeProvider()
     {
         return array(
             array(null, null),

@@ -38,7 +38,7 @@ class PromoteUserCommandTest extends \PHPUnit\Framework\TestCase
         $application = new Application();
 
         $helper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-            ->setMethods(array('ask'))
+            ->onlyMethods(array('ask'))
             ->getMock();
 
         $helper->expects($this->at(0))

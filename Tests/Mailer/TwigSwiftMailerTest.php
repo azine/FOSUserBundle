@@ -103,10 +103,10 @@ TWIG
         return $user;
     }
 
-    private function getEmailAddressValueObject($emailAddressAsString)
+    private static function getEmailAddressValueObject($emailAddressAsString)
     {
         $emailAddress = $this->getMockBuilder('EmailAddress')
-           ->setMethods(array('__toString'))
+           ->onlyMethods(array('__toString'))
            ->getMock();
 
         $emailAddress->method('__toString')
@@ -116,21 +116,21 @@ TWIG
         return $emailAddress;
     }
 
-    public function goodEmailProvider()
+    public static function goodEmailProvider()
     {
         return array(
             array('foo@example.com'),
             array('foo@example.co.uk'),
-            array($this->getEmailAddressValueObject('foo@example.com')),
-            array($this->getEmailAddressValueObject('foo@example.co.uk')),
+            array(self::getEmailAddressValueObject('foo@example.com')),
+            array(self::getEmailAddressValueObject('foo@example.co.uk')),
         );
     }
 
-    public function badEmailProvider()
+    public static function badEmailProvider()
     {
         return array(
             array('foo'),
-            array($this->getEmailAddressValueObject('foo')),
+            array(self::getEmailAddressValueObject('foo')),
         );
     }
 }

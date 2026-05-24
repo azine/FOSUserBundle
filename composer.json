@@ -2,7 +2,9 @@
     "name": "friendsofsymfony/user-bundle",
     "type": "symfony-bundle",
     "description": "Symfony FOSUserBundle",
-    "keywords": ["User management"],
+    "keywords": [
+        "User management"
+    ],
     "homepage": "http://friendsofsymfony.github.com",
     "license": "MIT",
     "authors": [
@@ -26,7 +28,8 @@
         "symfony/security-bundle": "^7.4",
         "symfony/twig-bundle": "^7.4",
         "twig/twig": "^3.14",
-        "swiftmailer/swiftmailer": "^6.3"
+        "swiftmailer/swiftmailer": "^6.3",
+        "doctrine/collections": "^2.3"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.13",

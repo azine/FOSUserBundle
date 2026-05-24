@@ -46,7 +46,7 @@ class UserProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoadUserByInvalidUsername()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\UsernameNotFoundException::class);
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UserNotFoundException::class);
         $this->userManager->expects($this->once())
             ->method('findUserByUsername')
             ->with('foobar')
@@ -58,7 +58,7 @@ class UserProviderTest extends \PHPUnit\Framework\TestCase
     public function testRefreshUserBy()
     {
         $user = $this->getMockBuilder('FOS\UserBundle\Model\User')
-                    ->setMethods(array('getId'))
+                    ->onlyMethods(array('getId'))
                     ->getMock();
 
         $user->expects($this->once())
@@ -82,7 +82,7 @@ class UserProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testRefreshDeleted()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\UsernameNotFoundException::class);
+        $this->expectException(\Symfony\Component\Security\Core\Exception\UserNotFoundException::class);
         $user = $this->getMockForAbstractClass('FOS\UserBundle\Model\User');
         $this->userManager->expects($this->once())
             ->method('findUserBy')

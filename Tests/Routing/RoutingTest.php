@@ -54,7 +54,7 @@ class RoutingTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function loadRoutingProvider()
+    public static function loadRoutingProvider()
     {
         return array(
             array('fos_user_change_password', '/change-password', array('GET', 'POST')),

@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Lenar Lõhmus <lenar@city.ee>
  */
-abstract class RoleCommand extends ContainerAwareCommand
+abstract class RoleCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}

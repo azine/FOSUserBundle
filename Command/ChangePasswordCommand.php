@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * ChangePasswordCommand.
  */
-class ChangePasswordCommand extends ContainerAwareCommand
+class ChangePasswordCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}

@@ -330,7 +330,7 @@ class FOSUserExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function userManagerSetFactoryProvider()
+    public static function userManagerSetFactoryProvider()
     {
         return array(
             array('orm', 'doctrine'),

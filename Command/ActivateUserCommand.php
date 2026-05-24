@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @author Antoine Hérault <antoine.herault@gmail.com>
  */
-class ActivateUserCommand extends ContainerAwareCommand
+class ActivateUserCommand extends BaseContainerAwareCommand
 {
     /**
      * {@inheritdoc}
