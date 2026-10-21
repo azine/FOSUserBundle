@@ -57,7 +57,7 @@ and following some steps.
 
 This branch targets modern PHP/Symfony platforms:
 
-- PHP **8.5+**
+- PHP **8.5.12+**
 - Symfony components **7.4+**
 - Twig **3.14+**
 - PHPUnit **11.5+**

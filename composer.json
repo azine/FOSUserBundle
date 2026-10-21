@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^8.5",
+        "php": "^8.5.12",
         "symfony/form": "^7.4",
         "symfony/framework-bundle": "^7.4",
         "symfony/security-bundle": "^7.4",
