@@ -24,10 +24,10 @@
     "require": {
         "php": "^8.5",
         "symfony/form": "^7.4",
-        "symfony/framework-bundle": "^7.4",
+        "symfony/framework-bundle": "^7.4.24",
         "symfony/security-bundle": "^7.4",
         "symfony/twig-bundle": "^7.4",
-        "twig/twig": "^3.14",
+        "twig/twig": "^3.31.1",
         "swiftmailer/swiftmailer": "^6.3",
         "doctrine/collections": "^2.3"
     },
@@ -36,12 +36,17 @@
         "friendsofphp/php-cs-fixer": "^3.66",
         "symfony/console": "^7.4",
         "symfony/phpunit-bridge": "^7.4",
-        "symfony/validator": "^7.4",
-        "symfony/yaml": "^7.4",
+        "symfony/validator": "^7.4.23",
+        "symfony/yaml": "^7.4.23",
         "phpunit/phpunit": "^11.5"
     },
     "conflict": {
-        "symfony/doctrine-bridge": "<7.4"
+        "symfony/doctrine-bridge": "<7.4.24 || >=8 <8.1.12",
+        "symfony/http-foundation": "<5.4.57 || >=6 <6.4.51 || >=7 <7.4.24 || >=8 <8.1.12",
+        "symfony/http-kernel": "<5.4.57 || >=6 <6.4.51 || >=7 <7.4.24 || >=8 <8.1.12",
+        "symfony/routing": "<5.4.57 || >=6 <6.4.51 || >=7 <7.4.24 || >=8 <8.1.12",
+        "symfony/security-core": "<5.4.57 || >=6 <6.4.51 || >=7 <7.4.24 || >=8 <8.1.12",
+        "symfony/security-http": "<5.4.57 || >=6 <6.4.51 || >=7 <7.4.24 || >=8 <8.1.12"
     },
     "autoload": {
         "psr-4": {
